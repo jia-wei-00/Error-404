@@ -1,3 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap");
 @import "./variables.scss";
 @import "./_functions.scss";
 @import "./_mixins.scss";
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  margin: 0 auto;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+  position: relative;
+}
+
+.link {
+  &:after {
+    position: absolute;
+    transition: $transition;
+    background-color: white;
+    content: "";
+    display: block;
+    height: 1px;
+    left: 0;
+    width: 0;
+    bottom: 0;
+  }
+
+  &:hover:after {
+    width: 100%;
+  }
+}

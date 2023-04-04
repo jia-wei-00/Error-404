@@ -1,12 +1,12 @@
-import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home, Favourite, Login } from "./pages";
-import {Nav, Modal} from "./components";
+import { Nav, Modal } from "./components";
+import "./styles/main.scss";
 
 function App() {
   return (
     <BrowserRouter>
-    <Nav />
+      <Nav />
       <Routes>
         <Route path="/home" element={<Home />} />
         <Route path="/favourite" element={<Favourite />} />

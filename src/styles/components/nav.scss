@@ -1,3 +1,29 @@
 @import "../variables.scss";
 @import "../_functions.scss";
 @import "../_mixins.scss";
+
+header {
+  background-color: black;
+  transition: $transition;
+  backdrop-filter: blur(15px);
+  color: white;
+  box-shadow: 1px 1px 17px -3px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 1px 1px 17px -3px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 1px 1px 17px -3px rgba(0, 0, 0, 0.75);
+
+  & > div {
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+    margin: 0 auto;
+  }
+
+  a {
+    color: white;
+  }
+}
+
+.navbar {
+  display: flex;
+  column-gap: 15px;
+}
