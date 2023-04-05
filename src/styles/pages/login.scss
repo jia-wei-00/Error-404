@@ -1,3 +1,21 @@
 @import "../variables.scss";
 @import "../_functions.scss";
 @import "../_mixins.scss";
+
+.login {
+  &-box {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    height: calc(100vh - 45px); 
+  }
+
+  &-form {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+  }
+}
