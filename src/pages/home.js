@@ -3,6 +3,8 @@ import { observer } from "mobx-react-lite";
 import "../styles/pages/home.scss";
 import { apiStore } from "../store";
 
+console.log(apiStore.coin_list.length, "length");
+
 const Home = () => {
   return (
     <div>
