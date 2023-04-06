@@ -1,15 +1,27 @@
-import React from 'react';
-import '../styles/pages/favourite.scss';
-import { fireStore } from '../store';
+import React, { useEffect } from "react";
+import "../styles/pages/favourite.scss";
+import { fireStore } from "../store";
+import { observer } from "mobx-react-lite";
 
 const Favourite = () => {
-    const list = ["bitcoin", "ethereum", "hello", "bello"];
+  const list = ["bitcoin", "ethereum", "hello", "bello"];
 
-    return (
-        <div>Favourite
-            <button onClick={() => {fireStore.getFavouriteList()}}>Post</button>
-        </div>
-    )
-}
+  useEffect(() => {
+    fireStore.fetchFavouriteList();
+  }, []);
 
-export default observer(Favourite)
+  return (
+    <div>
+      Favourite
+      <button
+        onClick={() => {
+          fireStore.getFavouriteList();
+        }}
+      >
+        Post
+      </button>
+    </div>
+  );
+};
+
+export default observer(Favourite);

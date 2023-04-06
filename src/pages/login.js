@@ -16,13 +16,18 @@ const Login = () => {
     if (authStore.user) {
       navigate("/home");
     }
-  }, [navigate]);
+  }, [authStore.user, navigate]);
 
   console.log(authStore.user);
 
   const login = (e) => {
     e.preventDefault();
     authStore.signInAPI(username, password);
+  };
+
+  const signup = (e) => {
+    e.preventDefault();
+    authStore.signUp(username, password);
   };
 
   const googleLogin = (e) => {
@@ -46,13 +51,10 @@ const Login = () => {
             value={password}
             placeholder="Password"
           />
-          
           <Button type="submit" onClick={(e) => login(e)}>
             Login
           </Button>
-
           Or
-
           <Button type="submit" onClick={(e) => googleLogin(e)}>
             Google
           </Button>

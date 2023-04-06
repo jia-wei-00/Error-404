@@ -19,7 +19,7 @@ export class authStoreImplementation {
 
     auth.onAuthStateChanged((user) => {
       if (user) {
-        this.setUser(user);
+        this.setUser(user.email);
       } else {
         this.setUser(null);
       }
@@ -94,6 +94,29 @@ export class authStoreImplementation {
           autoClose: 5000,
         });
         this.setUser(null);
+      })
+      .catch((error) => {
+        toast.update(id, {
+          render: error.message,
+          type: "error",
+          isLoading: false,
+          autoClose: 5000,
+        });
+      });
+  }
+
+  signUp(email, password) {
+    const id = toast.loading("Please wait...");
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        toast.update(id, {
+          render: `Welcome ${userCredential.user.email}`,
+          type: "success",
+          isLoading: false,
+          autoClose: 5000,
+        });
+        this.user = userCredential.user.email;
       })
       .catch((error) => {
         toast.update(id, {

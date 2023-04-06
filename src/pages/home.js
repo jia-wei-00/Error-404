@@ -4,7 +4,7 @@ import "../styles/pages/home.scss";
 import { apiStore } from "../store";
 import { Wrapper } from "../components";
 import { StickyHeadTable } from "../components";
-import {log} from "../tools";
+import { log } from "../tools";
 
 const Home = () => {
   useEffect(() => {
@@ -20,9 +20,7 @@ const Home = () => {
           <div className="homepage">
             <div className="top-crypto">
               <div>
-                <div>
-                  
-                </div>
+                <div></div>
               </div>
               <div>
                 <div></div>

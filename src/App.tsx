@@ -4,11 +4,14 @@ import { Nav, Modal } from "./components";
 import { ToastContainer } from "react-toastify";
 import "./styles/main.scss";
 import Auth from "./auth";
+import { authStore } from "./store";
+import { observer } from "mobx-react-lite";
 
 function App() {
   return (
     <BrowserRouter>
-      <Nav />
+      {authStore.user && <Nav />}
+
       <Auth>
         <Routes>
           <Route path="/home" element={<Home />} />
@@ -22,4 +25,4 @@ function App() {
   );
 }
 
-export default App;
+export default observer(App);
