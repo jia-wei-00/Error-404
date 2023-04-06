@@ -8,6 +8,8 @@ body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   margin: 0 auto;
+  background-color: rgb(249, 245, 220);
+  ;
 }
 
 ul {
@@ -38,4 +40,8 @@ a {
   &:hover:after {
     width: 100%;
   }
+}
+
+.d-flex{
+  display:flex;
 }
