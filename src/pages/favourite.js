@@ -1,10 +1,15 @@
 import React from 'react';
 import '../styles/pages/favourite.scss';
+import { fireStore } from '../store';
 
 const Favourite = () => {
+    const list = ["bitcoin", "ethereum", "hello", "bello"];
+
     return (
-        <div>Favourite</div>
+        <div>Favourite
+            <button onClick={() => {fireStore.getFavouriteList()}}>Post</button>
+        </div>
     )
 }
 
-export default Favourite
+export default observer(Favourite)

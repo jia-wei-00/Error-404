@@ -8,7 +8,7 @@ import {log} from "../tools";
 
 const Home = () => {
   useEffect(() => {
-    apiStore.fetchList();
+    // apiStore.fetchList();
   }, []);
 
   log(apiStore.coin_list);
