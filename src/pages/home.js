@@ -5,8 +5,6 @@ import { apiStore } from "../store";
 import { Wrapper } from "../components";
 import {StickyHeadTable} from "../components";
 
-console.log(apiStore.coin_list.length, "length");
-
 const Home = () => {
   return (
     <div>

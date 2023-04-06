@@ -14,7 +14,7 @@ const firebaseConfig = {
   storageBucket: "error-404-b49fe.appspot.com",
   messagingSenderId: "402017081148",
   appId: "1:402017081148:web:6fe317ccc8825307e93039",
-  measurementId: "G-4N6D392C27"
+  measurementId: "G-4N6D392C27",
 };
 
 // Initialize Firebase

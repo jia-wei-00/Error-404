@@ -24,7 +24,12 @@ header {
   }
 }
 
-.navbar {
+.menu {
   display: flex;
   column-gap: 15px;
+
+  &-navbar {
+    display: flex;
+    column-gap: 15px;
+  }
 }
