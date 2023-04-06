@@ -3,10 +3,10 @@
 @import "../_mixins.scss";
 
 header {
-  background-color: black;
+  background-color: $black;
   transition: $transition;
   backdrop-filter: blur(15px);
-  color: white;
+  color: $white;
   box-shadow: 1px 1px 17px -3px rgba(0, 0, 0, 0.75);
   -webkit-box-shadow: 1px 1px 17px -3px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 1px 1px 17px -3px rgba(0, 0, 0, 0.75);
@@ -19,11 +19,16 @@ header {
   }
 
   a {
-    color: white;
+    color: $white;
   }
 }
 
-.navbar {
+.menu {
   display: flex;
   column-gap: 15px;
+
+  &-navbar {
+    display: flex;
+    column-gap: 15px;
+  }
 }

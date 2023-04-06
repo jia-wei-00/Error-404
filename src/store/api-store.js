@@ -3,11 +3,13 @@ import axios from "axios";
 
 export class apiStoreImplementation {
   coin_list = [];
+  coin_details = {};
 
   constructor() {
     makeObservable(this, {
       coin_list: observable,
       fetchList: action.bound,
+      fetchDetails: action.bound,
     });
   }
 
@@ -19,6 +21,20 @@ export class apiStoreImplementation {
       .then((res) => {
         // console.log(res.data, "store")
         this.coin_list = res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  fetchDetails(id) {
+    axios
+      .get(
+        `https://api.coingecko.com/api/v3/coins/${id}`
+      )
+      .then((res) => {
+        // console.log(res.data, "store")
+        this.coin_details = res.data;
       })
       .catch((err) => {
         console.log(err);
