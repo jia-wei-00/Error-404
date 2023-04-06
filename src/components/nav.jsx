@@ -24,6 +24,11 @@ const Nav = () => {
                 Favourite
               </Link>
             </li>
+            <li>
+              <Link to="/modal" className="link">
+                Modal
+              </Link>
+            </li>
           </ul>
           {firebaseStore.user && (
             <button onClick={() => firebaseStore.signOut()}>Logout</button>
