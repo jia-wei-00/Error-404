@@ -18,6 +18,8 @@ const Login = () => {
     }
   }, [firebaseStore.user]);
 
+  console.log(firebaseStore.user);
+
   const login = (e) => {
     e.preventDefault();
     firebaseStore.signInAPI(username, password);
@@ -36,17 +38,23 @@ const Login = () => {
             type="email"
             onChange={(e) => setUsername(e.target.value)}
             value={username}
+            placeholder="Email"
           />
           <Input
             type="password"
             onChange={(e) => setPassword(e.target.value)}
             value={password}
+            placeholder="Password"
           />
-          <Button type="submit" onClick={(e) => googleLogin(e)}>
-            Google
-          </Button>
+          
           <Button type="submit" onClick={(e) => login(e)}>
             Login
+          </Button>
+
+          Or
+
+          <Button type="submit" onClick={(e) => googleLogin(e)}>
+            Google
           </Button>
         </form>
       </div>

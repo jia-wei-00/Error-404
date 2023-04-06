@@ -6,6 +6,8 @@ import { observer } from "mobx-react-lite";
 import { firebaseStore } from "../store";
 
 const Nav = () => {
+
+
   return (
     <header>
       <Wrapper>
@@ -22,6 +24,11 @@ const Nav = () => {
             <li>
               <Link to="/favourite" className="link">
                 Favourite
+              </Link>
+            </li>
+            <li>
+              <Link to="/modal" className="link">
+                Modal
               </Link>
             </li>
           </ul>
