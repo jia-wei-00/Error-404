@@ -18,6 +18,8 @@ const Login = () => {
     }
   }, [firebaseStore.user]);
 
+  console.log(firebaseStore.user);
+
   const login = (e) => {
     e.preventDefault();
     firebaseStore.signInAPI(username, password);

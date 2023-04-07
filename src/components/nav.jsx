@@ -6,6 +6,8 @@ import { observer } from "mobx-react-lite";
 import { firebaseStore } from "../store";
 
 const Nav = () => {
+
+
   return (
     <header>
       <Wrapper>

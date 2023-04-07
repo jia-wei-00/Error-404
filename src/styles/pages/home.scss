@@ -2,81 +2,85 @@
 @import "../_functions.scss";
 @import "../_mixins.scss";
 
-.homepage{
-    background-color: rgb(249, 245, 220);
-    height: 100%;
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.homepage {
+  background-color: rgb(249, 245, 220);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .top-crypto {
-    display:flex;
-    height: 500px;
-    width: 100%;
-    background-color: rgb(121, 234, 121);
-    margin: 20px 0 0 0;
-    justify-content: space-around;
-    align-items: center;
+  display: flex;
+  height: 500px;
+  width: 100%;
+  background-color: rgb(121, 234, 121);
+  margin: 20px 0 0 0;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 1px 1px 17px -3px rgb(26, 251, 26);
+
+  & > div {
+    background-color: aliceblue;
     border-radius: 10px;
-    box-shadow: 1px 1px 17px -3px rgb(26, 251, 26);
+    height: 450px;
+    width: 300px;
+    transition: 0.6s;
 
-    & > div{
-        background-color: aliceblue;
-        border-radius: 10px;
-        height: 450px;
-        width: 300px;
-        transition: 0.6s;
-        
-        &:hover{
-            transform: scale(0.95);
-
-        }
+    &:hover {
+      transform: scale(0.95);
+      background-color:rgb(255, 255, 255)
     }
-
-    
-
+  }
 }
 
-.crypto-search{
-
-    display:flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    width: 100%;
-    
-    input{
-        border: 0;
-        background-color: aliceblue;
-        border-radius: 10px;
-        width: 400px;
-        height: 50px;
-        padding: 0 0 0 20px;
-        margin: 20px;
-        font-size: 20px;
-    }
+@keyframes roll {
+  from {
+    left: 0px;
+  }
+  to {
+    left: 50vw;
+  }
 }
 
-.crypto-list{
-    padding: 10px;
-    // background-color: white;
-    height: 600px;
-    width: 1440px;
+.crypto-search {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 100%;
+
+  input {
+    border: 0;
+    background-color: aliceblue;
     border-radius: 10px;
-    display:flex;
-    justify-content: center;
-
-    &-types{
-        width: 99%;
-        height:70px;
-        background-color: aliceblue;
-        border-radius: 10px;
-        box-shadow: 1px 1px 13px -3px rgb(0, 0, 0);
-    }
+    width: 400px;
+    height: 50px;
+    padding: 0 0 0 20px;
+    margin: 20px;
+    font-size: 20px;
+  }
 }
 
-.table-head{
-    background-color: green;
+.crypto-list {
+  padding: 10px;
+  // background-color: white;
+  height: auto;
+  width: 1440px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+
+  &-types {
+    width: 99%;
+    height: 70px;
+    background-color: aliceblue;
+    border-radius: 10px;
+    box-shadow: 1px 1px 13px -3px rgb(0, 0, 0);
+  }
 }
 
+.table-head {
+  background-color: green;
+}
