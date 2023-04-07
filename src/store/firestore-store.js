@@ -4,7 +4,6 @@ import "react-toastify/dist/ReactToastify.css";
 import db from "../firebase";
 import authStore from "./auth-store";
 import apiStore from "./api-store";
-import { log } from "../tools";
 
 export class firestoreStoreImplementation {
   favourite_list = [];
@@ -37,6 +36,7 @@ export class firestoreStoreImplementation {
               })
               .catch((error) => {
                 console.log("Error updating document:", error);
+                toast.error(error.message);
               });
           } else {
             console.log("Document does not exist!");
@@ -49,6 +49,7 @@ export class firestoreStoreImplementation {
               })
               .catch((error) => {
                 console.log("Error creating document:", error);
+                toast.error(error.message);
               });
           }
         })
