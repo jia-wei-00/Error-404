@@ -10,63 +10,58 @@ import TableRow from "@mui/material/TableRow";
 import Popup from "reactjs-popup";
 import DetailsModal from "./details-modal.js";
 import "./details-modal.js";
+import { apiStore } from "../store";
+import "../styles/pages/home.scss";
 
 const columns = [
-  { id: "name", label: "Name", minWidth: 170 },
-  { id: "code", label: "ISO\u00a0Code", minWidth: 100 },
+  { id: "rank", label: "#", minWidth: 10 },
+  { id: "coin", label: "Coin", minWidth: 50 },
   {
-    id: "population",
-    label: "Population",
-    minWidth: 170,
+    id: "price",
+    label: "Price",
+    minWidth: 20,
+    align: "right",
+  },
+  {
+    id: "OneDay",
+    label: "24h",
+    minWidth: 20,
     align: "right",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    id: "size",
-    label: "Size\u00a0(km\u00b2)",
+    id: "DailyMktCapDiff",
+    label: "Daily Mkt Cap Changes",
     minWidth: 170,
     align: "right",
-    format: (value) => value.toLocaleString("en-US"),
+    format: (value) => value.toFixed(2),
   },
   {
-    id: "density",
-    label: "Density",
-    minWidth: 170,
+    id: "ath-changes",
+    label: "All-Time High Changes",
+    minWidth: 20,
+    align: "right",
+    format: (value) => value.toFixed(2),
+  },
+  {
+    id: "atl-changes",
+    label: "All-Time Low Changes",
+    minWidth: 20,
     align: "right",
     format: (value) => value.toFixed(2),
   },
 ];
 
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
-
-const rows = [
-  createData("India", "IN", 1324171354, 3287263),
-  createData("China", "CN", 1403500365, 9596961),
-  createData("Italy", "IT", 60483973, 301340),
-  createData("United States", "US", 327167434, 9833520),
-  createData("Canada", "CA", 37602103, 9984670),
-  createData("Australia", "AU", 25475400, 7692024),
-  createData("Germany", "DE", 83019200, 357578),
-  createData("Ireland", "IE", 4857000, 70273),
-  createData("Mexico", "MX", 126577691, 1972550),
-  createData("Japan", "JP", 126317000, 377973),
-  createData("France", "FR", 67022000, 640679),
-  createData("United Kingdom", "GB", 67545757, 242495),
-  createData("Russia", "RU", 146793744, 17098246),
-  createData("Nigeria", "NG", 200962417, 923768),
-  createData("Brazil", "BR", 210147125, 8515767),
-  createData("testing", "BR", 210147125, 8515767),
-  createData("testing", "BR", 210147125, 8515767),
-  createData("testing", "BR", 210147125, 8515767),
-  createData("testing", "BR", 210147125, 8515767),
-];
 
 export default function StickyHeadTable() {
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(0);
+
+  React.useEffect(() => {
+    apiStore.fetchList();
+  }, []);
+
+  console.log(apiStore.coin_list);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -80,7 +75,7 @@ export default function StickyHeadTable() {
   let test_data = 'Test Works';
   return (
     <Paper sx={{ width: "100%" }}>
-      <TableContainer>
+      <TableContainer sx={{ overflow: "auto" }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -88,7 +83,12 @@ export default function StickyHeadTable() {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  style={{
+                    minWidth: column.minWidth,
+                    position: "sticky",
+                    top: "0",
+                    zIndex: 1,
+                  }}
                 >
                   {column.label}
                 </TableCell>
@@ -96,42 +96,69 @@ export default function StickyHeadTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => {
+            {apiStore.coin_list.slice(4,100).map((coin, key) => {
               return (
-                <Popup
-                  trigger={
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.code}
-                    >
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === "number"
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  }
-                  modal //Center the pop-up
-                  nested //Not yet sure what this does
-                >
-                  {/* {close => <DetailsModal close={close}/>} */}
-                  {(close) => (
-                    <div className="modal">
-                      <button className="close" onClick={close}>
-                        &times;
-                      </button>
-                                              
-                        <DetailsModal test = {test_data}/>
+                <TableRow hover role="checkbox" tabIndex={-1}>
+                  {/* {columns.map((column) => {
+                      const value = row[column.id];
+                      return (
+                        <TableCell key={key} align={column.align}>
+                          {column.format && typeof value === 'number'
+                            ? column.format(value)
+                            : value}
+                        </TableCell>
+                      );
+                    })} */}
+
+                  <TableCell>{coin.market_cap_rank}</TableCell>
+                  <TableCell>
+                    <div className="cell">
+                      <div>
+                        <img className="cell-images" src={coin.image} />
+                      </div>
+                      <div className="d-flex cell-text">
+                        {coin.name} + {coin.symbol}
+                      </div>
                     </div>
-                  )}
-                </Popup>
+                  </TableCell>
+                  <TableCell>{coin.current_price}</TableCell>
+                  <TableCell>
+                    <div
+                      className={`my-number ${
+                        coin.price_change_percentage_24h < 0 ? "negative" : ""
+                      }`}
+                    >
+                      {`${coin.price_change_percentage_24h.toFixed(2)}%`}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div
+                      className={`my-number ${
+                        coin.market_cap_change_percentage_24h < 0
+                          ? "negative"
+                          : ""
+                      }`}
+                    >
+                      {`${coin.market_cap_change_percentage_24h.toFixed(2)}%`}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div
+                      className={`my-number ${
+                        coin.ath_change_percentage< 0
+                          ? "negative"
+                          : ""
+                      }`}
+                    >
+                      {`${coin.ath_change_percentage.toFixed(2)}%`}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                      <div className={`my-number ${coin.atl_change_percentage < 0 ? 'negative': ''}`}>
+                        {`${coin.atl_change_percentage.toFixed(2)}%`}
+                        </div>
+                        </TableCell>
+                </TableRow>
               );
             })}
           </TableBody>
@@ -140,3 +167,17 @@ export default function StickyHeadTable() {
     </Paper>
   );
 }
+
+<div>
+  {apiStore.coin_list.length > 0 ? (
+    apiStore.coin_list.map((coin, key) => {
+      return (
+        <li key={key}>
+          {coin.name} {coin.atl_date}
+        </li>
+      );
+    })
+  ) : (
+    <li>Loading</li>
+  )}
+</div>;

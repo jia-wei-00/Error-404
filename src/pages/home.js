@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import "../styles/pages/home.scss";
 import { apiStore } from "../store";
@@ -8,7 +8,7 @@ import {log} from "../tools";
 
 const Home = () => {
   useEffect(() => {
-    apiStore.fetchList();
+    // apiStore.fetchList();
   }, []);
 
   log(apiStore.coin_list);
@@ -19,20 +19,18 @@ const Home = () => {
         <Wrapper>
           <div className="homepage">
             <div className="top-crypto">
-              <div>
-                <div>
-                  
-                </div>
-              </div>
-              <div>
-                <div></div>
-              </div>
-              <div>
-                <div></div>
-              </div>
-              <div>
-                <div></div>
-              </div>
+              {apiStore.coin_list.length > 0 ? (
+                apiStore.coin_list.slice(0, 4).map((coin, key) => {
+                  return (
+                    <div>
+                      <div className="best-coin"><img src={coin.image}/></div>
+                      <div>{coin.current_price}</div>
+                    </div>
+                  );
+                })
+              ) : (
+                <div>Loading</div>
+              )}
             </div>
             <div className="crypto-search">
               <input type="text" placeholder="Search" />
@@ -44,15 +42,20 @@ const Home = () => {
         </Wrapper>
       </div>
 
-      {/* <div>
-          {apiStore.coin_list.length > 0 ? (
-            apiStore.coin_list.map((coin, key) => {
-              return <li key={key}>{coin.name} {coin.atl_date}</li>;
-            })
-          ) : (
-            <li>Loading</li>
-          )}
-      </div> */}
+      <div>
+        {apiStore.coin_list.length > 0 ? (
+          apiStore.coin_list.slice(0, 4).map((coin, key) => {
+            return (
+              <>
+                {" "}
+                {coin.name} {coin.atl_date}
+              </>
+            );
+          })
+        ) : (
+          <li>Loading</li>
+        )}
+      </div>
     </>
   );
 };

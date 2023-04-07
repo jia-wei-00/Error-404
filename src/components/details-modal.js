@@ -28,3 +28,20 @@ const DetailsModal = (test_data) => {
 };
 
 export default observer(DetailsModal);
+
+{/* <TableRow>
+{columns.map((column) => (
+  <TableCell
+    key={column.id}
+    align={column.align}
+    style={{
+      minWidth: column.minWidth,
+      position: "sticky",
+      top: "0",
+      zIndex: 1,
+    }}
+  >
+    {column.label}
+  </TableCell>
+))}
+</TableRow> */}

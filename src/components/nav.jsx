@@ -3,7 +3,7 @@ import "../styles/components/nav.scss";
 import { Link } from "react-router-dom";
 import Wrapper from "./wrapper";
 import { observer } from "mobx-react-lite";
-import { firebaseStore } from "../store";
+import { authStore } from "../store";
 
 const Nav = () => {
 
@@ -12,7 +12,7 @@ const Nav = () => {
     <header>
       <Wrapper>
         <div>
-          <Link to="/">Logo</Link>
+          <Link to={authStore.user ? "/home" : "/"}>Logo</Link>
         </div>
         <div className="menu">
           <ul className="menu-navbar">
@@ -32,8 +32,8 @@ const Nav = () => {
               </Link>
             </li>
           </ul>
-          {firebaseStore.user && (
-            <button onClick={() => firebaseStore.signOut()}>Logout</button>
+          {authStore.user && (
+            <button onClick={() => authStore.signOut()}>Logout</button>
           )}
         </div>
       </Wrapper>

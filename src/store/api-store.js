@@ -4,6 +4,7 @@ import axios from "axios";
 export class apiStoreImplementation {
   coin_list = [];
   coin_details = {};
+  favourite_data = [];
 
   constructor() {
     makeObservable(this, {
@@ -29,9 +30,7 @@ export class apiStoreImplementation {
 
   fetchDetails(id) {
     axios
-      .get(
-        `https://api.coingecko.com/api/v3/coins/${id}`
-      )
+      .get(`https://api.coingecko.com/api/v3/coins/${id}`)
       .then((res) => {
         // console.log(res.data, "store")
         this.coin_details = res.data;
