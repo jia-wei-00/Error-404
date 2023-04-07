@@ -4,24 +4,12 @@ import "../styles/pages/home.scss";
 import { apiStore } from "../store";
 import { Wrapper } from "../components";
 import { StickyHeadTable } from "../components";
-import { log } from "../tools";
-// import Particles from 'react-particles';
-// import {loadFull} from 'tsparticles';
-
+import {log} from "../tools";
 
 const Home = () => {
-
-  // const particlesInit = useCallback(async engine =>{
-  //   console.log(engine);
-
-  //   await loadFull(engine);
-  // }, []);
-
-  // const particlesLoaded = useCallback(async container =>{
-  //   await console.log(container);
-
-  //   return <Particles id='tsparticles' url="http://foo.bar/particles.json" init={particlesInit} loaded={particlesLoaded} />
-  // })
+  useEffect(() => {
+    // apiStore.fetchList();
+  }, []);
 
   log(apiStore.coin_list);
 

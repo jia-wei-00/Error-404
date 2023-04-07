@@ -1,16 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
-import { firebaseStore } from "../store";
+import { authStore } from "../store";
 
 const Auth = ({ children }) => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (!firebaseStore.user) {
+    if (!authStore.user) {
       navigate("/");
     }
-  }, [firebaseStore.user, navigate]);
+  }, [authStore.user, navigate]);
 
   return <>{children}</>;
 };

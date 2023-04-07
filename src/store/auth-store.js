@@ -1,11 +1,11 @@
 import { makeObservable, action, observable } from "mobx";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import db, { auth, provider } from "../firebase";
+import { auth, provider } from "../firebase";
 
 // import { sendPasswordResetEmail } from "firebase/auth";
 
-export class firebaseStoreImplementation {
+export class authStoreImplementation {
   user = null;
   username = null;
 
@@ -19,7 +19,7 @@ export class firebaseStoreImplementation {
 
     auth.onAuthStateChanged((user) => {
       if (user) {
-        this.setUser(user);
+        this.setUser(user.email);
       } else {
         this.setUser(null);
       }
@@ -45,7 +45,7 @@ export class firebaseStoreImplementation {
           isLoading: false,
           autoClose: 5000,
         });
-        this.setUser(user.user);
+        this.setUser(user.user.email);
       })
       .catch((error) => {
         toast.update(id, {
@@ -104,8 +104,31 @@ export class firebaseStoreImplementation {
         });
       });
   }
+
+  signUp(email, password) {
+    const id = toast.loading("Please wait...");
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        toast.update(id, {
+          render: `Welcome ${userCredential.user.email}`,
+          type: "success",
+          isLoading: false,
+          autoClose: 5000,
+        });
+        this.user = userCredential.user.email;
+      })
+      .catch((error) => {
+        toast.update(id, {
+          render: error.message,
+          type: "error",
+          isLoading: false,
+          autoClose: 5000,
+        });
+      });
+  }
 }
 
-const firebaseStore = new firebaseStoreImplementation();
+const authStore = new authStoreImplementation();
 
-export default firebaseStore;
+export default authStore;

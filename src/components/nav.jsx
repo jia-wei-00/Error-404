@@ -3,14 +3,16 @@ import "../styles/components/nav.scss";
 import { Link } from "react-router-dom";
 import Wrapper from "./wrapper";
 import { observer } from "mobx-react-lite";
-import { firebaseStore } from "../store";
+import { authStore } from "../store";
 
 const Nav = () => {
+
+
   return (
     <header>
       <Wrapper>
         <div>
-          <Link to="/">Logo</Link>
+          <Link to={authStore.user ? "/home" : "/"}>Logo</Link>
         </div>
         <div className="menu">
           <ul className="menu-navbar">
@@ -24,9 +26,14 @@ const Nav = () => {
                 Favourite
               </Link>
             </li>
+            <li>
+              <Link to="/modal" className="link">
+                Modal
+              </Link>
+            </li>
           </ul>
-          {firebaseStore.user && (
-            <button onClick={() => firebaseStore.signOut()}>Logout</button>
+          {authStore.user && (
+            <button onClick={() => authStore.signOut()}>Logout</button>
           )}
         </div>
       </Wrapper>
