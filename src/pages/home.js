@@ -9,13 +9,13 @@ import Particles from "react-particles";
 import { loadFull } from "tsparticles";
 
 const Home = () => {
-  const particlesInit = useCallback(async engine => {
+  const particlesInit = useCallback(async (engine) => {
     console.log(engine);
     await loadFull(engine);
   }, []);
-  const particlesLoaded = useCallback(async container => {
+  const particlesLoaded = useCallback(async (container) => {
     await console.log(container);
-}, []);
+  }, []);
   useEffect(() => {
     // apiStore.fetchList();
   }, []);
@@ -23,7 +23,6 @@ const Home = () => {
   log(apiStore.coin_list);
 
   return (
-    
     <>
       {/* <Particles
             id="tsparticles"
@@ -118,11 +117,27 @@ const Home = () => {
                         <p>RM {coin.current_price}</p>
                       </div>
                       <div className="best-coin-24HL">
-                        <div className="d-flex best-coin-24HL-high">{coin.high_24h}</div>
-                        <div className="d-flex best-coin-24HL-low">{coin.low_24h}</div>
+                        <div className="d-flex best-coin-24HL-high">
+                          <div>
+                            <b>ATH (Today)</b>
+                          </div>
+                          <h2>{coin.high_24h}</h2>
+                        </div>
+                        <div className="d-flex best-coin-24HL-low">
+                          <div>
+                            <b>ATL (Today)</b>
+                          </div>
+                          <h2>{coin.low_24h}</h2>
+                        </div>
                       </div>
                       <div className="d-flex best-coin-mc">
-                        RM{coin.market_cap}
+                        <div className="best-coin-mc-title">
+                          <b>Total Market Cap</b>
+                        </div>
+                        <div>
+                          <strong>RM</strong>
+                          {coin.market_cap}
+                        </div>
                       </div>
                     </div>
                   );

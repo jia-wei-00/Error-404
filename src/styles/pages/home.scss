@@ -5,10 +5,10 @@
 $positive-color: green;
 $negaitve-color: red;
 
-.my-number{
+.my-number {
   color: $positive-color;
 
-  &.negative{
+  &.negative {
     color: $negaitve-color;
   }
 }
@@ -42,10 +42,32 @@ $negaitve-color: red;
 
     &:hover {
       transform: scale(0.95);
-      background-color:rgb(243, 224, 80)
-      
-    }
+      background-color: rgb(243, 224, 80);
 
+      .best-coin-mc {
+        row-gap: unset;
+      }
+
+      & b{
+        display: none;
+      }
+
+      & .best-coin-price {
+        background-color: rgb(214, 231, 246);
+      }
+
+      & .best-coin-24HL-high{
+        background-color: rgb(148, 241, 93);
+        color:black;
+
+
+      }
+
+      & .best-coin-24HL-low{
+        background-color: rgb(244, 51, 51);
+        color: black;
+      }
+    }
   }
 }
 
@@ -98,49 +120,45 @@ $negaitve-color: red;
   background-color: green;
 }
 
-.cell{
-  display:flex;
+.cell {
+  display: flex;
 
-  &-images{
-    height:50px;
-    width:50px;
+  &-images {
+    height: 50px;
+    width: 50px;
     margin: 10px;
   }
 
-  &-text{
+  &-text {
     justify-content: center;
     align-items: center;
   }
 }
 
-.d-flex{
-  display:flex;
+.d-flex {
+  display: flex;
 }
 
-  
-.cell-images{
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    
+.cell-images {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  }
-
-.best-coin{
+.best-coin {
   flex-direction: column;
   align-items: center;
-  
 
-  img{
+  img {
     width: 150px;
     height: 150px;
   }
 
-  &-image{
+  &-image {
     margin: 10px;
   }
 
-  &-price{
+  &-price {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -151,43 +169,69 @@ $negaitve-color: red;
     font-size: 20px;
     margin: 5px;
 
-    p{
+    p {
       margin: 0;
     }
   }
 
-  &-24HL{
+  &-24HL {
     // background-color: black;
     width: 200px;
     height: 100px;
     margin: 10px;
 
-    &-high{
-      background-color: rgb(148, 241, 93);
-      width:200px;
-      height:50px;
+    &-high {
+      width: 200px;
+      height: 50px;
       border-radius: 20px 20px 0 0;
       justify-content: center;
       align-items: center;
+      color: rgb(79, 200, 9);
+      transition: 0.6s;
+
+      b{
+        font-size: 15px;
+        margin: 10px;
+      }
     }
 
-    &-low{
-      background-color: rgb(244, 51, 51);
-      width:200px;
-      height:50px;
+    &-low {
+      width: 200px;
+      height: 50px;
+      transition: 0.6s;
       border-radius: 0 0 20px 20px;
       justify-content: center;
       align-items: center;
+      color: rgb(244, 51, 51);
+
+      b{
+        font-size: 15px;
+        margin: 10px;
+        transition: 0.7s
+      }
     }
   }
 
-  &-mc{
+  &-mc {
+    flex-direction: column;
     background-color: rgb(232, 226, 30);
     justify-content: center;
     align-items: center;
     margin: 10px;
-    height: 50px;
+    height: 120px;
     width: 250px;
     border-radius: 10px;
+    row-gap: 10px;
+
+    // &-title{
+    //   padding: 0 0 30px 0;
+    // }
+
+    strong{
+      margin: 10px;
+      font-size: 20px;
+    }
+
+
   }
 }

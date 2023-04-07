@@ -11,40 +11,40 @@ import { apiStore } from "../store";
 import "../styles/pages/home.scss";
 
 const columns = [
-  { id: "rank", label: "#", width: 10 },
+  { id: "rank", label: "#", width: 10, align: 'left' },
   { id: "coin", label: "Coin", width: 10 },
   {
     id: "price",
     label: "Price",
     width: 10,
-    align: "right",
+    align: "left",
   },
   {
     id: "OneDay",
     label: "24h",
     width: 10,
-    align: "right",
+    align: "left",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     id: "DailyMktCapDiff",
     label: "Daily Mkt Cap Changes",
     width: 10,
-    align: "right",
+    align: "left",
     format: (value) => value.toFixed(2),
   },
   {
     id: "ath-changes",
     label: "All-Time High Changes",
     width: 10,
-    align: "right",
+    align: "left",
     format: (value) => value.toFixed(2),
   },
   {
     id: "atl-changes",
     label: "All-Time Low Changes",
     width: 10,
-    align: "right",
+    align: "left",
     format: (value) => value.toFixed(2),
   },
 ];
@@ -79,7 +79,7 @@ export default function StickyHeadTable() {
                   key={column.id}
                   align={column.align}
                   style={{
-                    minWidth: column.minWidth,
+                    width: column.width,
                     position: "sticky",
                     top: "0",
                     zIndex: 1,
