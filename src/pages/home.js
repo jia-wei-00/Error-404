@@ -1,12 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import "../styles/pages/home.scss";
 import { apiStore } from "../store";
 import { Wrapper } from "../components";
 import { StickyHeadTable } from "../components";
 import { log } from "../tools";
+// import Particles from 'react-particles';
+// import {loadFull} from 'tsparticles';
+
 
 const Home = () => {
+
+  // const particlesInit = useCallback(async engine =>{
+  //   console.log(engine);
+
+  //   await loadFull(engine);
+  // }, []);
+
+  // const particlesLoaded = useCallback(async container =>{
+  //   await console.log(container);
+
+  //   return <Particles id='tsparticles' url="http://foo.bar/particles.json" init={particlesInit} loaded={particlesLoaded} />
+  // })
+
   log(apiStore.coin_list);
 
   return (

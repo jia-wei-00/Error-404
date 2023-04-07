@@ -92,7 +92,7 @@ export default function StickyHeadTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {apiStore.coin_list.map((coin, key) => {
+            {apiStore.coin_list.slice(4,100).map((coin, key) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1}>
                   {/* {columns.map((column) => {
