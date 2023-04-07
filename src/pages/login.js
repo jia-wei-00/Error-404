@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import "../styles/pages/login.scss";
 import { Wrapper } from "../components";
 import { observer } from "mobx-react-lite";
-import { firebaseStore } from "../store";
+import { authStore } from "../store";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -13,21 +13,26 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (firebaseStore.user) {
+    if (authStore.user) {
       navigate("/home");
     }
-  }, [firebaseStore.user]);
+  }, [authStore.user, navigate]);
 
-  console.log(firebaseStore.user);
+  console.log(authStore.user);
 
   const login = (e) => {
     e.preventDefault();
-    firebaseStore.signInAPI(username, password);
+    authStore.signInAPI(username, password);
+  };
+
+  const signup = (e) => {
+    e.preventDefault();
+    authStore.signUp(username, password);
   };
 
   const googleLogin = (e) => {
     e.preventDefault();
-    firebaseStore.googleSignIn();
+    authStore.googleSignIn();
   };
 
   return (
@@ -46,13 +51,10 @@ const Login = () => {
             value={password}
             placeholder="Password"
           />
-          
           <Button type="submit" onClick={(e) => login(e)}>
             Login
           </Button>
-
           Or
-
           <Button type="submit" onClick={(e) => googleLogin(e)}>
             Google
           </Button>

@@ -19,7 +19,7 @@ const Modal = () => {
     nested //Not yet sure what this does
   >
 
-    <button onClick={fetchDetails}>Testing</button>
+    {/* <button onClick={fetchDetails}>Testing</button> */}
     {close => (
       <div className="modal">
         <button className="close" onClick={close}>

@@ -2,6 +2,17 @@
 @import "../_functions.scss";
 @import "../_mixins.scss";
 
+$positive-color: green;
+$negaitve-color: red;
+
+.my-number{
+  color: $positive-color;
+
+  &.negative{
+    color: $negaitve-color;
+  }
+}
+
 .homepage {
   background-color: rgb(249, 245, 220);
   height: 100%;
@@ -84,3 +95,30 @@
 .table-head {
   background-color: green;
 }
+
+.cell{
+  display:flex;
+
+  &-images{
+    height:50px;
+    width:50px;
+    margin: 10px;
+  }
+
+  &-text{
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.d-flex{
+  display:flex;
+}
+
+  
+.cell-images{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+  }
+
