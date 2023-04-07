@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
+import { FormatListBulleted } from '@mui/icons-material';
+import { Grid } from '@mui/material';
 import '../styles/pages/favourite.scss';
+
 
 const Favourite = () => {
     // search bar
@@ -23,9 +26,22 @@ const Favourite = () => {
 
         <div class="grid-view-list"> 
             <div class="change-view">
-                <button class="btnlist">List</button>
-                <button class="btngrid">Grid</button>
+                <button class="btnlist">
+                    <FormatListBulleted fontSize=''/>   
+                </button>
+                <button class="btngrid">
+                    <Grid fontSize=''/>
+                </button>
             </div>
+
+            <div class="card">
+  <img src="img_avatar.png" alt="Picture" ></img>
+  <div class="container">
+    <h4><b>Bitcoin</b></h4>
+    <p>Current Trend</p>
+  </div>
+</div>
+
         </div>
     </div>
     )
