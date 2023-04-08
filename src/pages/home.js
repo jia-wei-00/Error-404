@@ -26,15 +26,9 @@ const Home = () => {
 
   useEffect(() => {
     apiStore.fetchList();
-  },[]);
+  }, []);
 
-  // const getCoinList = async () => {
-  //   await apiStore.fetchList();
-  //   setCoinList(apiStore.coin_list);
-
-  // };
-
-  log(apiStore.coin_list);
+  // log(apiStore.coin_list);
 
   return (
     <>

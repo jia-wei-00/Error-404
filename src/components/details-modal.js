@@ -10,7 +10,7 @@ const Modal = ({ popup_index }) => {
   }, []);
 
   const coin_details = apiStore.coin_details;
-  console.log(coin_details);
+  // console.log(coin_details);
   return (
     <div className="content">
       <div className="box-main">

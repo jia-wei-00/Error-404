@@ -18,8 +18,6 @@ const Login = () => {
     }
   }, [authStore.user, navigate]);
 
-  console.log(authStore.user);
-
   const login = (e) => {
     e.preventDefault();
     authStore.signInAPI(username, password);
