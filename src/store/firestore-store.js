@@ -7,6 +7,7 @@ import apiStore from "./api-store";
 
 export class firestoreStoreImplementation {
   favourite_list = [];
+  favourite_data = [];
 
   constructor() {
     makeObservable(this, {

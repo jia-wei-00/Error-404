@@ -8,6 +8,7 @@ const Modal = ({ popup_index }) => {
   React.useEffect(() => {
     apiStore.fetchDetails(popup_index);
   }, []);
+
   const coin_details = apiStore.coin_details;
   console.log(coin_details);
   return (
@@ -15,12 +16,10 @@ const Modal = ({ popup_index }) => {
       <div className="box-main">
         <div>
           <h1>{coin_details.name}</h1>
-          <img src={coin_details.image} />
+          <img src={coin_details.image && coin_details.image.large} />
         </div>
       </div>
-      <div className="box-1">
-        {/* <div>{coin_details.descript}</div> */}
-      </div>
+      <div className="box-1">{/* <div>{coin_details.descript}</div> */}</div>
       <div className="box-2">
         <div>Box 2</div>
       </div>
