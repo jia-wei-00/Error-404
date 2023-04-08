@@ -95,7 +95,6 @@ export default function StickyHeadTable() {
           </TableHead>
           <TableBody>
             {apiStore.coin_list.slice(4, 100).map((coin, key) => {
-            {apiStore.coin_list.slice(4, 100).map((coin, key) => {
               return (
                 <Popup
                   trigger={
@@ -176,7 +175,6 @@ export default function StickyHeadTable() {
     </Paper>
   );
 }
-
 <div>
   {apiStore.coin_list.length > 0 ? (
     apiStore.coin_list.map((coin, key) => {
