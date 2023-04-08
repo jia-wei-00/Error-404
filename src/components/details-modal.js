@@ -9,16 +9,17 @@ const Modal = ({ popup_index }) => {
     apiStore.fetchDetails(popup_index);
   }, []);
   const coin_details = apiStore.coin_details;
+  console.log(coin_details);
   return (
     <div className="content">
       <div className="box-main">
         <div>
           <h1>{coin_details.name}</h1>
-          <img src = {coin_details.image.thumb}/>
+          <img src={coin_details.image} />
         </div>
       </div>
       <div className="box-1">
-        <div>Box 1</div>
+        {/* <div>{coin_details.descript}</div> */}
       </div>
       <div className="box-2">
         <div>Box 2</div>

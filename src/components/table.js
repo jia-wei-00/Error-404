@@ -14,7 +14,7 @@ import { apiStore } from "../store";
 import "../styles/pages/home.scss";
 
 const columns = [
-  { id: "rank", label: "#", width: 10, align: 'left' },
+  { id: "rank", label: "#", width: 10, align: "left" },
   { id: "coin", label: "Coin", width: 10 },
   {
     id: "price",
@@ -160,7 +160,10 @@ export default function StickyHeadTable() {
                 >
                   {(close) => (
                     <div className="modal">
-                      <button className="close" onClick={close}>
+                      <button
+                        className="close"
+                        onClick={(apiStore.clearDetails(), close)}
+                      >
                         &times;
                       </button>
                       <Modal popup_index={coin.id} />

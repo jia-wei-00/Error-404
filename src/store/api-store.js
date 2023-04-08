@@ -55,8 +55,10 @@ export class apiStoreImplementation {
     const from = time - this.SEVEN_DAYS;
 
     axios
-      .get(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=myr&from=${from}&to=${time}
-      `)
+      .get(
+        `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=myr&from=${from}&to=${time}
+      `
+      )
       .then((res) => {
         // console.log(res.data, "store")
         this.chart_data = res.data.prices;
@@ -65,8 +67,6 @@ export class apiStoreImplementation {
         toast.error(err.message);
       });
   }
-
-
 }
 
 const apiStore = new apiStoreImplementation();
