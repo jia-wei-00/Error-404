@@ -14,8 +14,11 @@ export class apiStoreImplementation {
     makeObservable(this, {
       coin_list: observable,
       coin_details: observable,
+      chart_data: observable,
       fetchList: action.bound,
+      clearDetails: action.bound,
       fetchDetails: action.bound,
+      fetchChart: action.bound,
     });
   }
 

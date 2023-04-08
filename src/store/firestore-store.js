@@ -12,18 +12,25 @@ export class firestoreStoreImplementation {
   constructor() {
     makeObservable(this, {
       favourite_list: observable,
+      favourite_data: observable,
       postFavouriteAPI: action.bound,
       fetchFavouriteList: action.bound,
       getFavouriteList: action.bound,
+      setFavouriteList: action.bound,
     });
   }
 
+  setFavouriteList(props) {
+    this.favourite_list = props;
+  }
+
   postFavouriteAPI(props) {
-    let tmp_favorite_list = Array.from(this.favourite_list);
+    const tmp_favorite_list = [...this.favourite_list];
 
     if (props) {
       if (tmp_favorite_list.includes(props)) {
         tmp_favorite_list.splice(tmp_favorite_list.indexOf(props), 1);
+        console.log(tmp_favorite_list);
       } else {
         tmp_favorite_list.push(props);
       }
@@ -75,8 +82,7 @@ export class firestoreStoreImplementation {
       .get()
       .then((doc) => {
         if (doc.exists) {
-          this.favourite_list = doc.data().favourite_list;
-          console.log("Favourite list:", this.favourite_list);
+          this.setFavouriteList(doc.data().favourite_list);
         } else {
           console.log("No such document!");
         }
