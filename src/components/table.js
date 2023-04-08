@@ -8,7 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Popup from "reactjs-popup";
-import DetailsModal from "./details-modal.js";
+import Modal from "./details-modal.js";
 import "./details-modal.js";
 import { apiStore } from "../store";
 import "../styles/pages/home.scss";
@@ -52,7 +52,6 @@ const columns = [
   },
 ];
 
-
 export default function StickyHeadTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(0);
@@ -72,7 +71,6 @@ export default function StickyHeadTable() {
     setPage(0);
   };
 
-  let test_data = 'Test Works';
   return (
     <Paper sx={{ width: "100%" }}>
       <TableContainer sx={{ overflow: "auto" }}>
@@ -96,69 +94,79 @@ export default function StickyHeadTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {apiStore.coin_list.slice(4,100).map((coin, key) => {
+            {apiStore.coin_list.slice(4, 100).map((coin, key) => {
               return (
-                <TableRow hover role="checkbox" tabIndex={-1}>
-                  {/* {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={key} align={column.align}>
-                          {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })} */}
-
-                  <TableCell>{coin.market_cap_rank}</TableCell>
-                  <TableCell>
-                    <div className="cell">
-                      <div>
-                        <img className="cell-images" src={coin.image} />
-                      </div>
-                      <div className="d-flex cell-text">
-                        {coin.name} + {coin.symbol}
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>{coin.current_price}</TableCell>
-                  <TableCell>
-                    <div
-                      className={`my-number ${
-                        coin.price_change_percentage_24h < 0 ? "negative" : ""
-                      }`}
-                    >
-                      {`${coin.price_change_percentage_24h.toFixed(2)}%`}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div
-                      className={`my-number ${
-                        coin.market_cap_change_percentage_24h < 0
-                          ? "negative"
-                          : ""
-                      }`}
-                    >
-                      {`${coin.market_cap_change_percentage_24h.toFixed(2)}%`}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div
-                      className={`my-number ${
-                        coin.ath_change_percentage< 0
-                          ? "negative"
-                          : ""
-                      }`}
-                    >
-                      {`${coin.ath_change_percentage.toFixed(2)}%`}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                      <div className={`my-number ${coin.atl_change_percentage < 0 ? 'negative': ''}`}>
-                        {`${coin.atl_change_percentage.toFixed(2)}%`}
+                <Popup
+                  trigger={
+                    <TableRow hover role="checkbox" tabIndex={-1}>
+                      <TableCell>{coin.market_cap_rank}</TableCell>
+                      <TableCell>
+                        <div className="cell">
+                          <div>
+                            <img className="cell-images" src={coin.image} />
+                          </div>
+                          <div className="d-flex cell-text">
+                            {coin.name} + {coin.symbol}
+                          </div>
                         </div>
-                        </TableCell>
-                </TableRow>
+                      </TableCell>
+                      <TableCell>{coin.current_price}</TableCell>
+                      <TableCell>
+                        <div
+                          className={`my-number ${
+                            coin.price_change_percentage_24h < 0
+                              ? "negative"
+                              : ""
+                          }`}
+                        >
+                          {`${coin.price_change_percentage_24h.toFixed(2)}%`}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          className={`my-number ${
+                            coin.market_cap_change_percentage_24h < 0
+                              ? "negative"
+                              : ""
+                          }`}
+                        >
+                          {`${coin.market_cap_change_percentage_24h.toFixed(
+                            2
+                          )}%`}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          className={`my-number ${
+                            coin.ath_change_percentage < 0 ? "negative" : ""
+                          }`}
+                        >
+                          {`${coin.ath_change_percentage.toFixed(2)}%`}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          className={`my-number ${
+                            coin.atl_change_percentage < 0 ? "negative" : ""
+                          }`}
+                        >
+                          {`${coin.atl_change_percentage.toFixed(2)}%`}
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  }
+                  modal
+                  nested
+                >
+                  {(close) => (
+                    <div className="modal">
+                      <button className="close" onClick={close}>
+                        &times;
+                      </button>
+                      <Modal popup_index={coin.id} />
+                    </div>
+                  )}
+                </Popup>
               );
             })}
           </TableBody>

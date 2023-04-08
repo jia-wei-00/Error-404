@@ -4,12 +4,18 @@ import Popup from "reactjs-popup";
 import { observer } from "mobx-react-lite";
 import { apiStore } from "../store";
 
-const DetailsModal = (test_data) => {
-  console.log(test_data.test);
+const Modal = ({ popup_index }) => {
+  React.useEffect(() => {
+    apiStore.fetchDetails(popup_index);
+  }, []);
+  const coin_details = apiStore.coin_details;
   return (
     <div className="content">
       <div className="box-main">
-        <div>Crypto</div>
+        <div>
+          <h1>{coin_details.name}</h1>
+          <img src = {coin_details.image.thumb}/>
+        </div>
       </div>
       <div className="box-1">
         <div>Box 1</div>
@@ -27,21 +33,4 @@ const DetailsModal = (test_data) => {
   );
 };
 
-export default observer(DetailsModal);
-
-{/* <TableRow>
-{columns.map((column) => (
-  <TableCell
-    key={column.id}
-    align={column.align}
-    style={{
-      minWidth: column.minWidth,
-      position: "sticky",
-      top: "0",
-      zIndex: 1,
-    }}
-  >
-    {column.label}
-  </TableCell>
-))}
-</TableRow> */}
+export default observer(Modal);

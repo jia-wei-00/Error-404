@@ -4,66 +4,68 @@
 
 @keyframes popup-animation {
   0% {
-    transform: scale(0.00);
+    transform: scale(0);
   }
   25% {
     transform: scale(0.25);
   }
   50% {
-    transform: scale(0.50);
+    transform: scale(0.5);
   }
   75% {
     transform: scale(0.75);
   }
   100% {
-    transform: scale(1.00);
+    transform: scale(1);
   }
 }
 .popup-content {
-  animation: popup-animation 0.2s;}
+  animation: popup-animation 0.2s;
+}
 
 .modal {
-    background-color: rgb(255, 255, 255);
-    height: 600px;
-    width: 1200px;
-    padding: 30px;
-    border-radius: 30px;
+  background-color: rgb(255, 255, 255);
+  height: 600px;
+  width: 1200px;
+  padding: 30px;
+  border-radius: 30px;
 
-      & > .content {
-      height: 100%;
-      width: 100%;
-      display: grid;
-      row-gap: 10px;
-      column-gap: 10px;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr 1fr;
-      grid-template-areas: 
-      'box-main box-main';  
-  
-        & > div {
-          // background-color: #ffffff;
-          box-shadow: 1px 3px 12px -5px rgba(0,0,0,0.24);
-          -webkit-box-shadow: 1px 3px 12px -5px rgba(0,0,0,0.24);
-          -moz-box-shadow: 1px 3px 12px -5px rgba(0,0,0,0.24);
-          border-radius: 30px;
-          padding: 10px;
-        }
-        & > .box-main{grid-area:box-main;}
-      }
+  & > .content {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    row-gap: 10px;
+    column-gap: 10px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: "box-main box-main";
 
-      & > .close {
-        cursor: pointer;
-        position: absolute;
-        display: block;
-        padding: 2px 5px;
-        line-height: 20px;
-        right: -10px;
-        top: -10px;
-        font-size: 24px;
-        background: #ffffff;
-        border-radius: 18px;
-        border: 1px solid #cfcece;
-      }
+    & > div {
+      // background-color: #ffffff;
+      box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
+      -webkit-box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
+      -moz-box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
+      border-radius: 30px;
+      padding: 10px;
+    }
+    & > .box-main {
+      grid-area: box-main;
+    }
+  }
+
+  & > .close {
+    cursor: pointer;
+    position: absolute;
+    display: block;
+    padding: 2px 5px;
+    line-height: 20px;
+    right: -10px;
+    top: -10px;
+    font-size: 24px;
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid #cfcece;
+  }
 }
 
 .popup-overlay {
@@ -72,19 +74,18 @@
 
 @media screen and (max-width: 1200px) {
   .modal {
-    width: 800px; 
+    width: 800px;
   }
 }
 
 @media screen and (max-width: 800px) {
   .modal {
-    width: 425px; 
+    width: 425px;
   }
 }
 
 @media screen and (max-width: 425px) {
   .modal {
-    width: 300px; 
+    width: 300px;
   }
 }
-

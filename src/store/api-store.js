@@ -9,6 +9,7 @@ export class apiStoreImplementation {
   constructor() {
     makeObservable(this, {
       coin_list: observable,
+      coin_details: observable,
       fetchList: action.bound,
       fetchDetails: action.bound,
     });
