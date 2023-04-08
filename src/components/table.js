@@ -60,15 +60,7 @@ const StickyHeadTable = ({ search }) => {
     if (apiStore.coin_list.length > 0) {
       fireStore.fetchFavouriteList();
     }
-  });
-
-  const addFavorite = useCallback(
-    (id) => {
-      fireStore.postFavouriteAPI([...fireStore.favourite_list, id]);
-      console.log("runthis");
-    },
-    [fireStore.favourite_list, fireStore.postFavouriteAPI]
-  );
+  }, [fireStore.favourite_list]);
 
   console.log(apiStore.coin_list);
   return (
@@ -109,7 +101,9 @@ const StickyHeadTable = ({ search }) => {
                               <StarRateRoundedIcon className="star" />
                             ) : (
                               <StarBorderRoundedIcon
-                                onClick={() => addFavorite(coin.id)}
+                                onClick={() =>
+                                  fireStore.postFavouriteAPI(coin.id)
+                                }
                               />
                             )}
                           </TableCell>

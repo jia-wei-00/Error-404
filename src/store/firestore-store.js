@@ -19,7 +19,15 @@ export class firestoreStoreImplementation {
   }
 
   postFavouriteAPI(props) {
-    if (props && props.length > 0) {
+    let tmp_favorite_list = Array.from(this.favourite_list);
+
+    if (props) {
+      if (tmp_favorite_list.includes(props)) {
+        tmp_favorite_list.splice(tmp_favorite_list.indexOf(props), 1);
+      } else {
+        tmp_favorite_list.push(props);
+      }
+
       const email = authStore.user;
       const docRef = db.collection("user_data").doc(email);
 
@@ -30,7 +38,7 @@ export class firestoreStoreImplementation {
             console.log("Document exists!");
             docRef
               .update({
-                favourite_list: props,
+                favourite_list: tmp_favorite_list,
               })
               .then(() => {
                 console.log("Document updated successfully!");
