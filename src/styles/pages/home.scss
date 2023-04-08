@@ -48,7 +48,7 @@ $negaitve-color: red;
         row-gap: unset;
       }
 
-      & b{
+      & b {
         display: none;
       }
 
@@ -57,15 +57,15 @@ $negaitve-color: red;
       }
 
       & .best-coin-24HL-high{
-         background-color: rgb(148, 241, 93);
-         color:black;
+        background-color: rgb(148, 241, 93);
+        color:black;
 
 
       }
 
       & .best-coin-24HL-low{
-         background-color: rgb(244, 51, 51);
-         color: black
+        background-color: rgb(244, 51, 51);
+        color: black;
       }
 
       // & .best-coin-mc{
@@ -90,17 +90,7 @@ $negaitve-color: red;
   justify-content: flex-end;
   align-items: flex-end;
   width: 100%;
-
-  input {
-    border: 0;
-    background-color: aliceblue;
-    border-radius: 10px;
-    width: 400px;
-    height: 50px;
-    padding: 0 0 0 20px;
-    margin: 20px;
-    font-size: 20px;
-  }
+  margin: 10px 0;
 }
 
 .crypto-list {
@@ -194,7 +184,7 @@ $negaitve-color: red;
       color: rgb(79, 200, 9);
       transition: 0.6s;
 
-      b{
+      b {
         font-size: 15px;
         margin: 10px;
       }
@@ -209,10 +199,10 @@ $negaitve-color: red;
       align-items: center;
       color: rgb(244, 51, 51);
 
-      b{
+      b {
         font-size: 15px;
         margin: 10px;
-        transition: 0.7s
+        transition: 0.7s;
       }
     }
   }
@@ -232,19 +222,8 @@ $negaitve-color: red;
 
 
     strong{
-      margin: 0;
-      font-size: 22px;
+      margin: 10px;
+      font-size: 20px;
     }
-
-    b{
-      font-size: 22px;
-    }
-
-
   }
-}
-
-.favourite-button{
-  width: 30px;
-  height: 10px;
 }

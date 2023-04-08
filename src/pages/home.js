@@ -1,116 +1,43 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { observer } from "mobx-react-lite";
 import "../styles/pages/home.scss";
 import { apiStore } from "../store";
 import { Wrapper } from "../components";
 import { StickyHeadTable } from "../components";
 import { log } from "../tools";
-import Particles from "react-particles";
-import { loadFull } from "tsparticles";
+import TextField from "@mui/material/TextField";
 
 const Home = () => {
-  const particlesInit = useCallback(async (engine) => {
-    console.log(engine);
-    await loadFull(engine);
-  }, []);
 
-  const particlesLoaded = useCallback(async (container) => {
-    await console.log(container);
-  }, []);
+  const [search, setSearch] = useState("");
 
-  const [coinList, setCoinList] = useState([]);
+  // const particlesInit = useCallback(async (engine) => {
+  //   console.log(engine);
+  //   await loadFull(engine);
+  // }, []);
+
+  // const particlesLoaded = useCallback(async (container) => {
+  //   await console.log(container);
+  // }, []);
+
+  // useEffect(() => {
+  //   getCoinList();
+  // }, []);
 
   useEffect(() => {
-    getCoinList();
-  }, []);
+    apiStore.fetchList();
+  },[]);
 
-  const getCoinList = async () => {
-    await apiStore.fetchList();
-    setCoinList(apiStore.coin_list);
+  // const getCoinList = async () => {
+  //   await apiStore.fetchList();
+  //   setCoinList(apiStore.coin_list);
 
-  };
+  // };
 
   log(apiStore.coin_list);
 
   return (
     <>
-      {/* <Particles
-            id="tsparticles"
-            init={particlesInit}
-            loaded={particlesLoaded}
-            options={{
-                background: {
-                    color: {
-                        value: "#efe094",
-                    },
-                },
-                fpsLimit: 75,
-                interactivity: {
-                    events: {
-                        onClick: {
-                            enable: true,
-                            mode: "push",
-                        },
-                        onHover: {
-                            enable: true,
-                            mode: "repulse",
-                        },
-                        resize: true,
-                    },
-                    modes: {
-                        push: {
-                            quantity: 4,
-                        },
-                        repulse: {
-                            distance: 200,
-                            duration: 0.4,
-                        },
-                    },
-                },
-                particles: {
-                    color: {
-                        value: "#ffffff",
-                    },
-                    links: {
-                        color: "#ffffff",
-                        distance: 150,
-                        enable: true,
-                        opacity: 0.5,
-                        width: 1,
-                    },
-                    collisions: {
-                        enable: true,
-                    },
-                    move: {
-                        direction: "none",
-                        enable: true,
-                        outModes: {
-                            default: "bounce",
-                        },
-                        random: false,
-                        speed: 6,
-                        straight: false,
-                    },
-                    number: {
-                        density: {
-                            enable: true,
-                            area: 800,
-                        },
-                        value: 80,
-                    },
-                    opacity: {
-                        value: 0.5,
-                    },
-                    shape: {
-                        type: "circle",
-                    },
-                    size: {
-                        value: { min: 1, max: 5 },
-                    },
-                },
-                detectRetina: true,
-            }}
-        > */}
       <div>
         <Wrapper>
           <div className="homepage">
@@ -145,7 +72,7 @@ const Home = () => {
                           <b>Total Market Cap</b>
                         </div>
                         <div>
-                          <strong>RM </strong>
+                          <strong>RM</strong>
                           {coin.market_cap}
                         </div>
                       </div>
@@ -157,10 +84,15 @@ const Home = () => {
               )}
             </div>
             <div className="crypto-search">
-              <input type="text" placeholder="Search" />
+              <TextField
+                id="standard-basic"
+                label="Search"
+                variant="standard"
+                onChange={(e) => setSearch(e.target.value.toLocaleLowerCase())}
+              />
             </div>
             <div className="crypto-list">
-              <StickyHeadTable coin_list={coinList}/>
+              <StickyHeadTable />
             </div>
           </div>
         </Wrapper>
@@ -171,7 +103,8 @@ const Home = () => {
           apiStore.coin_list.slice(0, 4).map((coin, key) => {
             return (
               <>
-                
+                {" "}
+                {coin.name} {coin.atl_date}
               </>
             );
           })

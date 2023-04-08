@@ -4,10 +4,10 @@ import "react-toastify/dist/ReactToastify.css";
 import db from "../firebase";
 import authStore from "./auth-store";
 import apiStore from "./api-store";
-import { log } from "../tools";
 
 export class firestoreStoreImplementation {
   favourite_list = [];
+  favourite_data = [];
 
   constructor() {
     makeObservable(this, {
@@ -19,7 +19,15 @@ export class firestoreStoreImplementation {
   }
 
   postFavouriteAPI(props) {
-    if (props && props.length > 0) {
+    let tmp_favorite_list = Array.from(this.favourite_list);
+
+    if (props) {
+      if (tmp_favorite_list.includes(props)) {
+        tmp_favorite_list.splice(tmp_favorite_list.indexOf(props), 1);
+      } else {
+        tmp_favorite_list.push(props);
+      }
+
       const email = authStore.user;
       const docRef = db.collection("user_data").doc(email);
 
@@ -30,13 +38,14 @@ export class firestoreStoreImplementation {
             console.log("Document exists!");
             docRef
               .update({
-                favourite_list: props,
+                favourite_list: tmp_favorite_list,
               })
               .then(() => {
                 console.log("Document updated successfully!");
               })
               .catch((error) => {
                 console.log("Error updating document:", error);
+                toast.error(error.message);
               });
           } else {
             console.log("Document does not exist!");
@@ -49,6 +58,7 @@ export class firestoreStoreImplementation {
               })
               .catch((error) => {
                 console.log("Error creating document:", error);
+                toast.error(error.message);
               });
           }
         })
@@ -82,7 +92,7 @@ export class firestoreStoreImplementation {
       .map((item) => ({
         ...item,
       }));
-
+    console.log(newArray);
     this.favourite_data = newArray;
   }
 }

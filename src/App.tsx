@@ -17,7 +17,6 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/favourite" element={<Favourite />} />
           <Route path="/" element={<Login />} />
-          <Route path="/modal" element={<Modal />} />
         </Routes>
       </Auth>
       <ToastContainer theme="dark" />
