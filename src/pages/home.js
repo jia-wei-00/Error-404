@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import "../styles/pages/home.scss";
 import { apiStore } from "../store";
@@ -13,12 +13,22 @@ const Home = () => {
     console.log(engine);
     await loadFull(engine);
   }, []);
+
   const particlesLoaded = useCallback(async (container) => {
     await console.log(container);
   }, []);
+
+  const [coinList, setCoinList] = useState([]);
+
   useEffect(() => {
-    // apiStore.fetchList();
+    getCoinList();
   }, []);
+
+  const getCoinList = async () => {
+    await apiStore.fetchList();
+    setCoinList(apiStore.coin_list);
+
+  };
 
   log(apiStore.coin_list);
 
@@ -135,7 +145,7 @@ const Home = () => {
                           <b>Total Market Cap</b>
                         </div>
                         <div>
-                          <strong>RM</strong>
+                          <strong>RM </strong>
                           {coin.market_cap}
                         </div>
                       </div>
@@ -150,7 +160,7 @@ const Home = () => {
               <input type="text" placeholder="Search" />
             </div>
             <div className="crypto-list">
-              <StickyHeadTable />
+              <StickyHeadTable coin_list={coinList}/>
             </div>
           </div>
         </Wrapper>
@@ -161,8 +171,7 @@ const Home = () => {
           apiStore.coin_list.slice(0, 4).map((coin, key) => {
             return (
               <>
-                {" "}
-                {coin.name} {coin.atl_date}
+                
               </>
             );
           })

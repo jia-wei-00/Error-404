@@ -11,7 +11,7 @@ import { apiStore } from "../store";
 import "../styles/pages/home.scss";
 
 const columns = [
-  { id: "rank", label: "#", width: 10, align: 'left' },
+  { id: "rank", label: "#", width: 10, align: "left" },
   { id: "coin", label: "Coin", width: 10 },
   {
     id: "price",
@@ -49,15 +49,15 @@ const columns = [
   },
 ];
 
-export default function StickyHeadTable() {
+export default function StickyHeadTable({ coin_list }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(0);
 
-  React.useEffect(() => {
-    apiStore.fetchList();
-  }, []);
+  // React.useEffect(() => {
+  //   apiStore.fetchList();
+  // }, []);
 
-  console.log(apiStore.coin_list);
+  // console.log(apiStore.coin_list);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -67,6 +67,10 @@ export default function StickyHeadTable() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  const handleClick = () => {
+    console.log("hello world")
+  }
 
   return (
     <Paper sx={{ width: "100%" }}>
@@ -91,7 +95,7 @@ export default function StickyHeadTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {apiStore.coin_list.slice(4, 100).map((coin, key) => {
+            {coin_list.slice(4, 100).map((coin, key) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1}>
                   {/* {columns.map((column) => {
@@ -153,6 +157,7 @@ export default function StickyHeadTable() {
                     >
                       {`${coin.atl_change_percentage.toFixed(2)}%`}
                     </div>
+                    <button className="favourite-button" onClick={handleClick}>Click Me</button>
                   </TableCell>
                 </TableRow>
               );
