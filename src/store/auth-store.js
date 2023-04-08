@@ -2,6 +2,7 @@ import { makeObservable, action, observable } from "mobx";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { auth, provider } from "../firebase";
+import fireStore from "./firestore-store";
 
 // import { sendPasswordResetEmail } from "firebase/auth";
 
@@ -35,51 +36,58 @@ export class authStoreImplementation {
   }
 
   signInAPI(email, password) {
-    const id = toast.loading("Please wait...");
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then((user) => {
-        toast.update(id, {
-          render: "Welcome " + user.user.email,
-          type: "success",
-          isLoading: false,
-          autoClose: 5000,
+    return new Promise((resolve, reject) => {
+      const id = toast.loading("Please wait...");
+      auth
+        .signInWithEmailAndPassword(email, password)
+        .then((user) => {
+          toast.update(id, {
+            render: "Welcome " + user.user.email,
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+          });
+          this.setUser(user.user.email);
+          resolve(true); // Resolve the Promise with a boolean value indicating success
+        })
+        .catch((error) => {
+          toast.update(id, {
+            render: error.message,
+            type: "error",
+            isLoading: false,
+            autoClose: 5000,
+          });
+          reject(error.message); // Reject the Promise with the error message
         });
-        this.setUser(user.user.email);
-      })
-      .catch((error) => {
-        toast.update(id, {
-          render: error.message,
-          type: "error",
-          isLoading: false,
-          autoClose: 5000,
-        });
-      });
+    });
   }
 
   googleSignIn() {
-    const id = toast.loading("Please wait...");
-    auth
-      .signInWithPopup(provider)
-      .then((result) => {
-        // User signed in successfully, handle the result object
-        toast.update(id, {
-          render: "Welcome " + result.user.displayName,
-          type: "success",
-          isLoading: false,
-          autoClose: 5000,
+    return new Promise((resolve, reject) => {
+      const id = toast.loading("Please wait...");
+      auth
+        .signInWithPopup(provider)
+        .then((result) => {
+          toast.update(id, {
+            render: "Welcome " + result.user.displayName,
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+          });
+          this.setUser(result.user.email);
+          this.setUsername(result.user.displayName);
+          resolve(true);
+        })
+        .catch((error) => {
+          toast.update(id, {
+            render: error.message,
+            type: "error",
+            isLoading: false,
+            autoClose: 5000,
+          });
+          reject(error.message);
         });
-        this.setUser(result.user.email);
-        this.setUsername(result.user.displayName);
-      })
-      .catch((error) => {
-        toast.update(id, {
-          render: error.message,
-          type: "error",
-          isLoading: false,
-          autoClose: 5000,
-        });
-      });
+    });
   }
 
   signOut() {
@@ -94,6 +102,7 @@ export class authStoreImplementation {
           autoClose: 5000,
         });
         this.setUser(null);
+        fireStore.setFavouriteList([]);
       })
       .catch((error) => {
         toast.update(id, {
@@ -106,26 +115,30 @@ export class authStoreImplementation {
   }
 
   signUp(email, password) {
-    const id = toast.loading("Please wait...");
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        toast.update(id, {
-          render: `Welcome ${userCredential.user.email}`,
-          type: "success",
-          isLoading: false,
-          autoClose: 5000,
+    return new Promise((resolve, reject) => {
+      const id = toast.loading("Please wait...");
+      auth
+        .createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          toast.update(id, {
+            render: `Welcome ${userCredential.user.email}`,
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+          });
+          this.user = userCredential.user.email;
+          resolve(true);
+        })
+        .catch((error) => {
+          toast.update(id, {
+            render: error.message,
+            type: "error",
+            isLoading: false,
+            autoClose: 5000,
+          });
+          reject(error.message);
         });
-        this.user = userCredential.user.email;
-      })
-      .catch((error) => {
-        toast.update(id, {
-          render: error.message,
-          type: "error",
-          isLoading: false,
-          autoClose: 5000,
-        });
-      });
+    });
   }
 }
 

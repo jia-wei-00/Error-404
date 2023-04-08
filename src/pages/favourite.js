@@ -1,22 +1,23 @@
 import React, { useEffect } from "react";
 import "../styles/pages/favourite.scss";
-import { fireStore } from "../store";
+import { authStore, fireStore } from "../store";
 import { observer } from "mobx-react-lite";
 
 const Favourite = (data) => {
   const list = ["bitcoin", "ethereum", "hello", "bello"];
 
   useEffect(() => {
-    fireStore.fetchFavouriteList();
+    if (authStore.user) {
+      fireStore.fetchFavouriteList();
+    }
   }, []);
-
 
   return (
     <div>
       Favourite
       <button
         onClick={() => {
-          fireStore.getFavouriteList();
+          authStore.user && fireStore.getFavouriteList();
         }}
       >
         Post
