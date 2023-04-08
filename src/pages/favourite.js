@@ -3,12 +3,13 @@ import "../styles/pages/favourite.scss";
 import { fireStore } from "../store";
 import { observer } from "mobx-react-lite";
 
-const Favourite = () => {
+const Favourite = (data) => {
   const list = ["bitcoin", "ethereum", "hello", "bello"];
 
   useEffect(() => {
     fireStore.fetchFavouriteList();
   }, []);
+
 
   return (
     <div>
