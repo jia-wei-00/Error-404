@@ -83,7 +83,7 @@ export class firestoreStoreImplementation {
       .map((item) => ({
         ...item,
       }));
-
+    console.log(newArray);
     this.favourite_data = newArray;
   }
 }
