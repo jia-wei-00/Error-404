@@ -19,7 +19,24 @@ export class apiStoreImplementation {
       clearDetails: action.bound,
       fetchDetails: action.bound,
       fetchChart: action.bound,
+      setDetails: action.bound,
+      setCoinLists: action.bound,
+      setChartData: action.bound,
     });
+  }
+
+  clearDetails() {
+    this.coin_details = {};
+  }
+
+  setCoinLists(props) {
+    this.coin_list = props;
+  }
+  setDetails(props) {
+    this.coin_details = props;
+  }
+  setChartData(props) {
+    this.chart_data = props;
   }
 
   fetchList() {
@@ -29,7 +46,7 @@ export class apiStoreImplementation {
       )
       .then((res) => {
         // console.log(res.data, "store")
-        this.coin_list = res.data;
+        this.setCoinLists(res.data);
       })
       .catch((err) => {
         // console.log(err);
@@ -37,16 +54,12 @@ export class apiStoreImplementation {
       });
   }
 
-  clearDetails() {
-    this.coin_details = {};
-  }
-
   fetchDetails(coin_id) {
     axios
       .get(`https://api.coingecko.com/api/v3/coins/${coin_id}`)
       .then((res) => {
         // console.log(res.data, "store")
-        this.coin_details = res.data;
+        this.setDetails(res.data);
       })
       .catch((err) => {
         toast.error(err.message);
@@ -64,7 +77,7 @@ export class apiStoreImplementation {
       )
       .then((res) => {
         // console.log(res.data, "store")
-        this.chart_data = res.data.prices;
+        this.setChartData(res.data.prices);
       })
       .catch((err) => {
         toast.error(err.message);

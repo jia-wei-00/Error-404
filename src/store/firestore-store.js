@@ -58,7 +58,7 @@ export class firestoreStoreImplementation {
             console.log("Document does not exist!");
             docRef
               .set({
-                favourite_list: props,
+                favourite_list: tmp_favorite_list,
               })
               .then(() => {
                 console.log("Document created successfully!");

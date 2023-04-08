@@ -92,7 +92,7 @@ const StickyHeadTable = ({ search }) => {
                 .slice(4, 100)
                 .map((coin, key) => {
                   return (
-                    <TableRow hover role="checkbox" tabIndex={-1}>
+                    <TableRow hover role="checkbox" tabIndex={-1} key={key}>
                       <TableCell>
                         {fireStore.favourite_list &&
                         fireStore.favourite_list.includes(coin.id) ? (

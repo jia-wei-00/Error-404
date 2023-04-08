@@ -14,7 +14,7 @@ const Home = () => {
     apiStore.fetchList();
   }, []);
 
-  log(apiStore.coin_list);
+  // log(apiStore.coin_list);
 
   return (
     <>
