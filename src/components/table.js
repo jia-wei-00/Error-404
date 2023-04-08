@@ -14,40 +14,40 @@ import { apiStore } from "../store";
 import "../styles/pages/home.scss";
 
 const columns = [
-  { id: "rank", label: "#", minWidth: 10 },
-  { id: "coin", label: "Coin", minWidth: 50 },
+  { id: "rank", label: "#", width: 10, align: 'left' },
+  { id: "coin", label: "Coin", width: 10 },
   {
     id: "price",
     label: "Price",
-    minWidth: 20,
-    align: "right",
+    width: 10,
+    align: "left",
   },
   {
     id: "OneDay",
     label: "24h",
-    minWidth: 20,
-    align: "right",
+    width: 10,
+    align: "left",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     id: "DailyMktCapDiff",
     label: "Daily Mkt Cap Changes",
-    minWidth: 170,
-    align: "right",
+    width: 10,
+    align: "left",
     format: (value) => value.toFixed(2),
   },
   {
     id: "ath-changes",
     label: "All-Time High Changes",
-    minWidth: 20,
-    align: "right",
+    width: 10,
+    align: "left",
     format: (value) => value.toFixed(2),
   },
   {
     id: "atl-changes",
     label: "All-Time Low Changes",
-    minWidth: 20,
-    align: "right",
+    width: 10,
+    align: "left",
     format: (value) => value.toFixed(2),
   },
 ];
@@ -82,7 +82,7 @@ export default function StickyHeadTable() {
                   key={column.id}
                   align={column.align}
                   style={{
-                    minWidth: column.minWidth,
+                    width: column.width,
                     position: "sticky",
                     top: "0",
                     zIndex: 1,
@@ -94,6 +94,7 @@ export default function StickyHeadTable() {
             </TableRow>
           </TableHead>
           <TableBody>
+            {apiStore.coin_list.slice(4, 100).map((coin, key) => {
             {apiStore.coin_list.slice(4, 100).map((coin, key) => {
               return (
                 <Popup
