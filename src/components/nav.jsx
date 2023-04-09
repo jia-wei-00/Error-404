@@ -3,7 +3,7 @@ import "../styles/components/nav.scss";
 import { Link } from "react-router-dom";
 import Wrapper from "./wrapper";
 import { observer } from "mobx-react-lite";
-import { authStore } from "../store";
+import { authStore, fireStore } from "../store";
 
 import LoginModal from "./login-modal";
 
@@ -20,13 +20,17 @@ const style = {
 };
 
 const Nav = () => {
-  const [open, setOpen] = React.useState(false);
+  const logout = () => {
+    authStore.signOut().then((res) => {
+      fireStore.setFavouriteList(null);
+    });
+  };
 
   return (
     <header>
       <Wrapper>
         <div>
-          <Link to={authStore.user ? "/home" : "/"}>Logo</Link>
+          <Link to="/">Logo</Link>
         </div>
         <div className="menu">
           <ul className="menu-navbar">
@@ -52,14 +56,16 @@ const Nav = () => {
             </li>
           </ul>
           {authStore.user ? (
-            <button onClick={() => authStore.signOut()}>Logout</button>
+            <button onClick={logout}>Logout</button>
           ) : (
-            <button onClick={() => setOpen(true)}>Sign In/ Sign Up</button>
+            <button onClick={() => authStore.setLoginModal(true)}>
+              Sign In/ Sign Up
+            </button>
           )}
         </div>
       </Wrapper>
 
-      <LoginModal open={open} setOpen={setOpen} />
+      <LoginModal />
     </header>
   );
 };

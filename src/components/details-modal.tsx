@@ -88,7 +88,7 @@ const Modal: React.FC<ModalProps> = ({ popup_index, open, setOpen }) => {
     <Dialog
       onClose={() => setOpen(false)}
       open={open}
-      //   fullScreen={fullScreen}
+      maxWidth="md"
       aria-labelledby="responsive-dialog-title"
     >
       <Paper sx={{ padding: "30px", textAlign: "center" }}>

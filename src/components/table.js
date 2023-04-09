@@ -14,6 +14,8 @@ import StarBorderRoundedIcon from "@mui/icons-material/StarBorderRounded";
 import "../styles/pages/home.scss";
 import { observer } from "mobx-react-lite";
 import Button from "@mui/material/Button";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const columns = [
   { id: "favorite", label: "", width: 2, align: "left" },
@@ -64,7 +66,7 @@ const StickyHeadTable = ({ search }) => {
     if (apiStore.coin_list.length > 0 && authStore.user) {
       fireStore.fetchFavouriteList();
     }
-  }, [fireStore.favourite_list, fireStore.postFavouriteAPI, authStore.user]);
+  }, [fireStore.favourite_list]);
 
   const loading = () => {
     if (load < 100) {
@@ -72,10 +74,19 @@ const StickyHeadTable = ({ search }) => {
     }
   };
 
-  const favorite = (id) => {
-    if (authStore.user) {
+  const favorite = (event, id) => {
+    event.stopPropagation();
+    if (!authStore.user) {
+      authStore.setLoginModal(true);
+    } else {
       fireStore.postFavouriteAPI(id);
     }
+  };
+
+  const openModal = (id) => {
+    setOpen(true);
+    setCoinId(id);
+    apiStore.clearDetails();
   };
 
   return (
@@ -117,23 +128,18 @@ const StickyHeadTable = ({ search }) => {
                         role="checkbox"
                         tabIndex={-1}
                         key={key}
-                        onClick={() => {
-                          setOpen(true);
-                          setCoinId(coin.id);
-                          apiStore.clearDetails();
-                          console.log(open);
-                        }}
+                        onClick={() => openModal(coin.id)}
                       >
                         <TableCell>
                           {fireStore.favourite_list &&
                           fireStore.favourite_list.includes(coin.id) ? (
                             <StarRateRoundedIcon
-                              onClick={() => favorite(coin.id)}
                               className="star"
+                              onClick={(event) => favorite(event, coin.id)}
                             />
                           ) : (
                             <StarBorderRoundedIcon
-                              onClick={() => favorite(coin.id)}
+                              onClick={(event) => favorite(event, coin.id)}
                             />
                           )}
                         </TableCell>
@@ -198,7 +204,10 @@ const StickyHeadTable = ({ search }) => {
           </Table>
         </TableContainer>
       </Paper>
-      {load < 100 && (
+      {load <
+        apiStore.coin_list.filter((coin) =>
+          coin.name.toLowerCase().includes(search)
+        ).length && (
         <Button
           variant="contained"
           sx={{
@@ -217,6 +226,13 @@ const StickyHeadTable = ({ search }) => {
       )}
 
       <Modal popup_index={coinId} open={open} setOpen={setOpen} />
+
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={apiStore.coin_list.length === 0}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </>
   );
 };

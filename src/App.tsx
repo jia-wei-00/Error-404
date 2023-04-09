@@ -7,24 +7,39 @@ import Auth from "./auth";
 import { authStore } from "./store";
 import { observer } from "mobx-react-lite";
 import Testing from "./components/testing";
+import { createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
+
+const theme = createTheme({
+  typography: {
+    fontFamily: "Poppins, sans-serif",
+  },
+  palette: {
+    primary: {
+      main: "#3B3B3B",
+    },
+  },
+});
 
 function App() {
   return (
-    <BrowserRouter>
-      {/* {authStore.user && <Nav />} */}
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        {/* {authStore.user && <Nav />} */}
 
-      <Nav />
+        <Nav />
 
-      {/* <Auth> */}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/favourite" element={<Favourite />} />
-        <Route path="/testing" element={<Testing />} />
-        {/* <Route path="/" element={<Login />} /> */}
-      </Routes>
-      {/* </Auth> */}
-      <ToastContainer theme="dark" />
-    </BrowserRouter>
+        {/* <Auth> */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/favourite" element={<Favourite />} />
+          <Route path="/testing" element={<Testing />} />
+          {/* <Route path="/" element={<Login />} /> */}
+        </Routes>
+        {/* </Auth> */}
+        <ToastContainer theme="dark" />
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

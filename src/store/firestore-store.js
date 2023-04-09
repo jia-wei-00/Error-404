@@ -52,7 +52,7 @@ export class firestoreStoreImplementation {
               })
               .catch((error) => {
                 console.log("Error updating document:", error);
-                toast.error(error.message);
+                toast.error(error);
               });
           } else {
             console.log("Document does not exist!");

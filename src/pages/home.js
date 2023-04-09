@@ -10,7 +10,7 @@ const Home = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    // apiStore.fetchList();
+    apiStore.fetchList();
   }, []);
 
   // log(apiStore.coin_list);
