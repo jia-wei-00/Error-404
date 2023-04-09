@@ -6,7 +6,6 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Popup from "reactjs-popup";
 import Modal from "./details-modal.tsx";
 import "./details-modal.tsx";
 import { apiStore, authStore, fireStore } from "../store";
@@ -58,6 +57,8 @@ const columns = [
 
 const StickyHeadTable = ({ search }) => {
   const [load, setLoad] = useState(20);
+  const [open, setOpen] = useState(false);
+  const [coinId, setCoinId] = useState("");
 
   useEffect(() => {
     if (apiStore.coin_list.length > 0 && authStore.user) {
@@ -111,7 +112,18 @@ const StickyHeadTable = ({ search }) => {
                   .slice(4, load)
                   .map((coin, key) => {
                     return (
-                      <TableRow hover role="checkbox" tabIndex={-1} key={key}>
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={key}
+                        onClick={() => {
+                          setOpen(true);
+                          setCoinId(coin.id);
+                          apiStore.clearDetails();
+                          console.log(open);
+                        }}
+                      >
                         <TableCell>
                           {fireStore.favourite_list &&
                           fireStore.favourite_list.includes(coin.id) ? (
@@ -126,88 +138,59 @@ const StickyHeadTable = ({ search }) => {
                           )}
                         </TableCell>
 
-                        <Popup
-                          trigger={
-                            <>
-                              <TableCell>{coin.market_cap_rank}</TableCell>
-                              <TableCell>
-                                <div className="cell">
-                                  <div>
-                                    <img
-                                      className="cell-images"
-                                      src={coin.image}
-                                    />
-                                  </div>
-                                  <div className="d-flex cell-text">
-                                    {coin.name} + {coin.symbol}
-                                  </div>
-                                </div>
-                              </TableCell>
-                              <TableCell>{coin.current_price}</TableCell>
-                              <TableCell>
-                                <div
-                                  className={`my-number ${
-                                    coin.price_change_percentage_24h < 0
-                                      ? "negative"
-                                      : ""
-                                  }`}
-                                >
-                                  {coin.price_change_percentage_24h.toFixed(2) +
-                                    "%"}
-                                </div>
-                              </TableCell>
-                              <TableCell>
-                                <div
-                                  className={`my-number ${
-                                    coin.market_cap_change_percentage_24h < 0
-                                      ? "negative"
-                                      : ""
-                                  }`}
-                                >
-                                  {coin.market_cap_change_percentage_24h.toFixed(
-                                    2
-                                  ) + "%"}
-                                </div>
-                              </TableCell>
-                              <TableCell>
-                                <div
-                                  className={`my-number ${
-                                    coin.ath_change_percentage < 0
-                                      ? "negative"
-                                      : ""
-                                  }`}
-                                >
-                                  {coin.ath_change_percentage.toFixed(2) + "%"}
-                                </div>
-                              </TableCell>
-                              <TableCell>
-                                <div
-                                  className={`my-number ${
-                                    coin.atl_change_percentage < 0
-                                      ? "negative"
-                                      : ""
-                                  }`}
-                                >
-                                  {coin.atl_change_percentage.toFixed(2) + "%"}
-                                </div>
-                              </TableCell>
-                            </>
-                          }
-                          modal
-                          nested
-                        >
-                          {(close) => (
-                            <div className="modal">
-                              <button
-                                className="close"
-                                onClick={(apiStore.clearDetails(), close)}
-                              >
-                                &times;
-                              </button>
-                              <Modal popup_index={coin.id} />
+                        <TableCell>{coin.market_cap_rank}</TableCell>
+                        <TableCell>
+                          <div className="cell">
+                            <div>
+                              <img className="cell-images" src={coin.image} />
                             </div>
-                          )}
-                        </Popup>
+                            <div className="d-flex cell-text">
+                              {coin.name} + {coin.symbol}
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>{coin.current_price}</TableCell>
+                        <TableCell>
+                          <div
+                            className={`my-number ${
+                              coin.price_change_percentage_24h < 0
+                                ? "negative"
+                                : ""
+                            }`}
+                          >
+                            {coin.price_change_percentage_24h.toFixed(2) + "%"}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div
+                            className={`my-number ${
+                              coin.market_cap_change_percentage_24h < 0
+                                ? "negative"
+                                : ""
+                            }`}
+                          >
+                            {coin.market_cap_change_percentage_24h.toFixed(2) +
+                              "%"}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div
+                            className={`my-number ${
+                              coin.ath_change_percentage < 0 ? "negative" : ""
+                            }`}
+                          >
+                            {coin.ath_change_percentage.toFixed(2) + "%"}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div
+                            className={`my-number ${
+                              coin.atl_change_percentage < 0 ? "negative" : ""
+                            }`}
+                          >
+                            {coin.atl_change_percentage.toFixed(2) + "%"}
+                          </div>
+                        </TableCell>
                       </TableRow>
                     );
                   })}
@@ -232,6 +215,8 @@ const StickyHeadTable = ({ search }) => {
           Load More
         </Button>
       )}
+
+      <Modal popup_index={coinId} open={open} setOpen={setOpen} />
     </>
   );
 };

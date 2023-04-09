@@ -24,10 +24,6 @@ export class apiStoreImplementation {
     });
   }
 
-  clearDetails() {
-    this.coin_details = {};
-  }
-
   setCoinLists(props) {
     this.coin_list = props;
   }
