@@ -5,8 +5,22 @@ import Wrapper from "./wrapper";
 import { observer } from "mobx-react-lite";
 import { authStore } from "../store";
 
-const Nav = () => {
+import LoginModal from "./login-modal";
 
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
+const Nav = () => {
+  const [open, setOpen] = React.useState(false);
 
   return (
     <header>
@@ -17,7 +31,7 @@ const Nav = () => {
         <div className="menu">
           <ul className="menu-navbar">
             <li>
-              <Link to="/home" className="link">
+              <Link to="/" className="link">
                 Home
               </Link>
             </li>
@@ -26,17 +40,26 @@ const Nav = () => {
                 Favourite
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="/modal" className="link">
                 Modal
               </Link>
+            </li> */}
+            <li>
+              <Link to="/testing" className="link">
+                Testing
+              </Link>
             </li>
           </ul>
-          {authStore.user && (
+          {authStore.user ? (
             <button onClick={() => authStore.signOut()}>Logout</button>
+          ) : (
+            <button onClick={() => setOpen(true)}>Sign In/ Sign Up</button>
           )}
         </div>
       </Wrapper>
+
+      <LoginModal open={open} setOpen={setOpen} />
     </header>
   );
 };

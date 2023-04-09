@@ -33,3 +33,9 @@ header {
     column-gap: 15px;
   }
 }
+
+.input {
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+}

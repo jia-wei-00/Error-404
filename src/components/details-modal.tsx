@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect, Dispatch, SetStateAction } from "react";
 import "../styles/components/details-modal.scss";
 import { observer } from "mobx-react-lite";
 import { apiStore } from "../store";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Paper from "@mui/material/Paper";
 import { AxisOptions, Chart } from "react-charts";
-import { useEffect } from "react";
 
 interface CoinDetails {
   name?: string;
@@ -26,9 +29,11 @@ interface CoinDetails {
 
 interface ModalProps {
   popup_index: number;
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const Modal: React.FC<ModalProps> = ({ popup_index }) => {
+const Modal: React.FC<ModalProps> = ({ popup_index, open, setOpen }) => {
   useEffect(() => {
     apiStore.fetchDetails(popup_index);
     apiStore.fetchChart(popup_index);
@@ -83,35 +88,48 @@ const Modal: React.FC<ModalProps> = ({ popup_index }) => {
   // );
   // ---------------------------------------------Chart---------------------------------------------
   return (
-    <div className="content">
-      <div className="box-main">
-        <div className="box-main-1">
-          <img src={coin_details.image && coin_details.image.large} alt="" height={100} />
-          <h1>{coin_details.name}</h1>
-          <h2>
-            Price: RM
-            {coin_details.market_data &&
-              coin_details.market_data.current_price?.myr}
-          </h2>
-        </div>
-        <div className="box-main-2">
-          <p>{coin_details.description && coin_details.description.en}</p>
-        </div>
-      </div>
-      <div className="box-1">
-        {/* <h3>Market Cap: {coin_details.market_data && coin_details.market_data?.market_cap?.myr}</h3> */}
-      </div>
-      <div className="box-2">
-        CHART HERE
-        {/* <Chart
+    <Dialog
+      onClose={() => setOpen(false)}
+      open={open}
+      //   fullScreen={fullScreen}
+      aria-labelledby="responsive-dialog-title"
+    >
+      <Paper sx={{ padding: "30px", textAlign: "center" }}>
+        <div className="content">
+          <div className="box-main">
+            <div className="box-main-1">
+              <img
+                src={coin_details.image && coin_details.image.large}
+                alt=""
+                height={100}
+              />
+              <h1>{coin_details.name}</h1>
+              <h2>
+                Price: RM
+                {coin_details.market_data &&
+                  coin_details.market_data.current_price?.myr}
+              </h2>
+            </div>
+            <div className="box-main-2">
+              <p>{coin_details.description && coin_details.description.en}</p>
+            </div>
+          </div>
+          <div className="box-1">
+            <h2></h2>
+          </div>
+          <div className="box-2">
+            CHART HERE
+            {/* <Chart
           options={{
             data,
             primaryAxis,
             secondaryAxes,
           }}
         /> */}
-      </div>
-    </div>
+          </div>
+        </div>
+      </Paper>
+    </Dialog>
   );
 };
 

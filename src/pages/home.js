@@ -4,7 +4,6 @@ import "../styles/pages/home.scss";
 import { apiStore } from "../store";
 import { Wrapper } from "../components";
 import { StickyHeadTable } from "../components";
-import { log } from "../tools";
 import TextField from "@mui/material/TextField";
 
 const Home = () => {
@@ -14,7 +13,7 @@ const Home = () => {
     apiStore.fetchList();
   }, []);
 
-  log(apiStore.coin_list);
+  // log(apiStore.coin_list);
 
   return (
     <>

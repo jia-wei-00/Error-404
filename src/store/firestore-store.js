@@ -7,18 +7,34 @@ import apiStore from "./api-store";
 
 export class firestoreStoreImplementation {
   favourite_list = [];
+  favourite_data = [];
 
   constructor() {
     makeObservable(this, {
       favourite_list: observable,
+      favourite_data: observable,
       postFavouriteAPI: action.bound,
       fetchFavouriteList: action.bound,
       getFavouriteList: action.bound,
+      setFavouriteList: action.bound,
     });
   }
 
+  setFavouriteList(props) {
+    this.favourite_list = props;
+  }
+
   postFavouriteAPI(props) {
-    if (props && props.length > 0) {
+    let tmp_favorite_list = [...this.favourite_list];
+
+    if (props) {
+      if (tmp_favorite_list.includes(props)) {
+        tmp_favorite_list.splice(tmp_favorite_list.indexOf(props), 1);
+        console.log(tmp_favorite_list);
+      } else {
+        tmp_favorite_list.push(props);
+      }
+
       const email = authStore.user;
       const docRef = db.collection("user_data").doc(email);
 
@@ -29,7 +45,7 @@ export class firestoreStoreImplementation {
             console.log("Document exists!");
             docRef
               .update({
-                favourite_list: props,
+                favourite_list: tmp_favorite_list,
               })
               .then(() => {
                 console.log("Document updated successfully!");
@@ -42,7 +58,7 @@ export class firestoreStoreImplementation {
             console.log("Document does not exist!");
             docRef
               .set({
-                favourite_list: props,
+                favourite_list: tmp_favorite_list,
               })
               .then(() => {
                 console.log("Document created successfully!");
@@ -66,8 +82,7 @@ export class firestoreStoreImplementation {
       .get()
       .then((doc) => {
         if (doc.exists) {
-          this.favourite_list = doc.data().favourite_list;
-          console.log("Favourite list:", this.favourite_list);
+          this.setFavouriteList(doc.data().favourite_list);
         } else {
           console.log("No such document!");
         }

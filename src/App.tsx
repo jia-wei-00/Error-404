@@ -6,19 +6,23 @@ import "./styles/main.scss";
 import Auth from "./auth";
 import { authStore } from "./store";
 import { observer } from "mobx-react-lite";
+import Testing from "./components/testing";
 
 function App() {
   return (
     <BrowserRouter>
-      {authStore.user && <Nav />}
+      {/* {authStore.user && <Nav />} */}
 
-      <Auth>
-        <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/favourite" element={<Favourite />} />
-          <Route path="/" element={<Login />} />
-        </Routes>
-      </Auth>
+      <Nav />
+
+      {/* <Auth> */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/favourite" element={<Favourite />} />
+        <Route path="/testing" element={<Testing />} />
+        {/* <Route path="/" element={<Login />} /> */}
+      </Routes>
+      {/* </Auth> */}
       <ToastContainer theme="dark" />
     </BrowserRouter>
   );
