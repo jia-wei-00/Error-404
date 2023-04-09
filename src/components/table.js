@@ -71,6 +71,12 @@ const StickyHeadTable = ({ search }) => {
     }
   };
 
+  const favorite = (id) => {
+    if (authStore.user) {
+      fireStore.postFavouriteAPI(id);
+    }
+  };
+
   return (
     <>
       <Paper sx={{ width: "100%" }}>
@@ -110,23 +116,20 @@ const StickyHeadTable = ({ search }) => {
                           {fireStore.favourite_list &&
                           fireStore.favourite_list.includes(coin.id) ? (
                             <StarRateRoundedIcon
-                              onClick={() =>
-                                fireStore.postFavouriteAPI(coin.id)
-                              }
+                              onClick={() => favorite(coin.id)}
                               className="star"
                             />
                           ) : (
                             <StarBorderRoundedIcon
-                              onClick={() =>
-                                fireStore.postFavouriteAPI(coin.id)
-                              }
+                              onClick={() => favorite(coin.id)}
                             />
                           )}
                         </TableCell>
-                        <TableCell>{coin.market_cap_rank}</TableCell>
+
                         <Popup
                           trigger={
                             <>
+                              <TableCell>{coin.market_cap_rank}</TableCell>
                               <TableCell>
                                 <div className="cell">
                                   <div>

@@ -6,6 +6,7 @@ import "./styles/main.scss";
 import Auth from "./auth";
 import { authStore } from "./store";
 import { observer } from "mobx-react-lite";
+import Testing from "./components/testing";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/favourite" element={<Favourite />} />
+        <Route path="/testing" element={<Testing />} />
         {/* <Route path="/" element={<Login />} /> */}
       </Routes>
       {/* </Auth> */}

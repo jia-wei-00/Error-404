@@ -40,9 +40,14 @@ const Nav = () => {
                 Favourite
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="/modal" className="link">
                 Modal
+              </Link>
+            </li> */}
+            <li>
+              <Link to="/testing" className="link">
+                Testing
               </Link>
             </li>
           </ul>
