@@ -14,6 +14,7 @@ export class apiStoreImplementation {
     makeObservable(this, {
       coin_list: observable,
       coin_details: observable,
+      chart_data: observable,
       fetchList: action.bound,
       fetchDetails: action.bound,
     });
@@ -36,6 +37,7 @@ export class apiStoreImplementation {
 
   clearDetails() {
     this.coin_details = {};
+    this.chart_data = [];
   }
 
   fetchDetails(coin_id) {
@@ -50,18 +52,21 @@ export class apiStoreImplementation {
       });
   }
 
-  fetchChart() {
-    const time = Date.now();
+  fetchChart(coin_id) {
+    
+    let time = Date.now();
+    time = time - 500;
     const from = time - this.SEVEN_DAYS;
+  
 
     axios
       .get(
-        `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=myr&from=${from}&to=${time}
-      `
+      // `https://api.coingecko.com/api/v3/coins/usd-coin/market_chart/range?vs_currency=myr&from=1680399557&to=1681004357`
+      `https://api.coingecko.com/api/v3/coins/${coin_id}/market_chart?vs_currency=myr&days=7&interval=hourly`
       )
       .then((res) => {
-        // console.log(res.data, "store")
-        this.chart_data = res.data.prices;
+        this.chart_data = (res.data.prices);
+        console.log(res.data);
       })
       .catch((err) => {
         toast.error(err.message);

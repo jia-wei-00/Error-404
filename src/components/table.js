@@ -8,8 +8,8 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Popup from "reactjs-popup";
-import Modal from "./details-modal.js";
-import "./details-modal.js";
+import Modal from "./details-modal.tsx";
+import "./details-modal.tsx";
 import { apiStore } from "../store";
 import "../styles/pages/home.scss";
 
