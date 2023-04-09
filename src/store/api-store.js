@@ -53,6 +53,11 @@ export class apiStoreImplementation {
       });
   }
 
+  clearDetails() {
+    this.coin_details = {};
+    this.chart_data = [];
+  }
+
   fetchDetails(coin_id) {
     axios
       .get(`https://api.coingecko.com/api/v3/coins/${coin_id}`)
@@ -65,10 +70,10 @@ export class apiStoreImplementation {
       });
   }
 
-  fetchChart(coin) {
+  fetchChart(coin_id) {
     axios
       .get(
-        `https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=myr&days=7&interval=hourly
+        `https://api.coingecko.com/api/v3/coins/${coin_id}/market_chart?vs_currency=myr&days=7&interval=hourly
       `
       )
       .then((res) => {

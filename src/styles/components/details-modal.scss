@@ -37,11 +37,13 @@
     row-gap: 10px;
     column-gap: 10px;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-template-areas: "box-main box-main";
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+      "box-main box-main"
+      "box-1 box-2"
+      "box-1 box-2";
 
     & > div {
-      // background-color: #ffffff;
       box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
       -webkit-box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
       -moz-box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
@@ -49,7 +51,32 @@
       padding: 10px;
     }
     & > .box-main {
+      overflow-y: auto;
+      overflow-x: hidden;
       grid-area: box-main;
+      display: grid;
+      grid-template-columns: 2fr 4fr;
+      grid-template-rows: 1fr 1fr;
+      grid-template-areas:
+        "box-main-1 box-main-2"
+        "box-main-1 box-main-2";
+
+      & > .box-main-1 {
+        text-align: center;
+        grid-area: box-main-1;
+      }
+      & > .box-main-2 {
+        overflow-y: auto;
+        overflow-x: hidden;
+        grid-area: box-main-2;
+      }
+    }
+    & > .box-1 {
+      grid-area: box-1;
+      
+    }
+    & > .box-2 {
+      grid-area: box-2;
     }
   }
 
