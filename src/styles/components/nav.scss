@@ -3,7 +3,10 @@
 @import "../_mixins.scss";
 
 header {
-  background-color: $black;
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.7);
   transition: $transition;
   backdrop-filter: blur(15px);
   color: $white;
