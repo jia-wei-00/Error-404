@@ -15,6 +15,9 @@ interface CoinDetails {
     current_price?: {
       myr?: number;
     };
+    // market_cap?: {
+    //   myr?: number;
+    // }
   };
   image?: {
     large?: string;
@@ -96,7 +99,7 @@ const Modal: React.FC<ModalProps> = ({ popup_index }) => {
         </div>
       </div>
       <div className="box-1">
-        <h2></h2>
+        {/* <h3>Market Cap: {coin_details.market_data && coin_details.market_data?.market_cap?.myr}</h3> */}
       </div>
       <div className="box-2">
         CHART HERE
