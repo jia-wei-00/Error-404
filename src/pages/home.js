@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import "../styles/pages/home.scss";
 import { apiStore } from "../store";
@@ -8,7 +8,6 @@ import { log } from "../tools";
 import TextField from "@mui/material/TextField";
 
 const Home = () => {
-
   const [search, setSearch] = useState("");
 
   // const particlesInit = useCallback(async (engine) => {
@@ -37,42 +36,48 @@ const Home = () => {
           <div className="homepage">
             <div className="top-crypto">
               {apiStore.coin_list.length > 0 ? (
-                apiStore.coin_list.slice(0, 4).map((coin, key) => {
-                  return (
-                    <div className="d-flex best-coin">
-                      <div className="best-coin-image">
-                        <img src={coin.image} />
-                      </div>
-                      <div className="d-flex best-coin-price">
-                        <p>Current Price:</p>
-                        <p>RM {coin.current_price}</p>
-                      </div>
-                      <div className="best-coin-24HL">
-                        <div className="d-flex best-coin-24HL-high">
-                          <div>
-                            <b>ATH (Today)</b>
-                          </div>
-                          <h2>{coin.high_24h}</h2>
-                        </div>
-                        <div className="d-flex best-coin-24HL-low">
-                          <div>
-                            <b>ATL (Today)</b>
-                          </div>
-                          <h2>{coin.low_24h}</h2>
-                        </div>
-                      </div>
-                      <div className="d-flex best-coin-mc">
-                        <div className="best-coin-mc-title">
-                          <b>Total Market Cap</b>
+                apiStore.coin_list
+                  .filter((coin) => coin.name.toLowerCase().includes(search))
+                  .slice(0, 4)
+                  .map((coin, key) => {
+                    return (
+                      <div className="d-flex best-coin" key={key}>
+                        <div className="best-coin-image">
+                          <img src={coin.image} />
                         </div>
                         <div>
-                          <strong>RM</strong>
-                          {coin.market_cap}
+                          {coin.name}
+                        </div>
+                        <div className="d-flex best-coin-price">
+                          <p>Current Price:</p>
+                          <p>RM {coin.current_price}</p>
+                        </div>
+                        <div className="best-coin-24HL">
+                          <div className="d-flex best-coin-24HL-high">
+                            <div>
+                              <b>ATH (Today)</b>
+                            </div>
+                            <h2>{coin.high_24h}</h2>
+                          </div>
+                          <div className="d-flex best-coin-24HL-low">
+                            <div>
+                              <b>ATL (Today)</b>
+                            </div>
+                            <h2>{coin.low_24h}</h2>
+                          </div>
+                        </div>
+                        <div className="d-flex best-coin-mc">
+                          <div className="best-coin-mc-title">
+                            <b>Total Market Cap</b>
+                          </div>
+                          <div>
+                            <strong>RM</strong>
+                            {coin.market_cap}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })
+                    );
+                  })
               ) : (
                 <div>Loading</div>
               )}
@@ -85,28 +90,25 @@ const Home = () => {
                 onChange={(e) => setSearch(e.target.value.toLocaleLowerCase())}
               />
             </div>
-            <div className="crypto-list">
-              <StickyHeadTable />
-            </div>
+            <StickyHeadTable search={search} />
           </div>
         </Wrapper>
       </div>
 
-      <div>
+      {/* <div>
         {apiStore.coin_list.length > 0 ? (
           apiStore.coin_list.slice(0, 4).map((coin, key) => {
             return (
               <>
                 {" "}
-                {coin.name} {coin.atl_date}
               </>
             );
           })
         ) : (
           <li>Loading</li>
         )}
-      </div>
-      {/* </Particles> */}
+      </Particles>
+      </div> */}
     </>
   );
 };

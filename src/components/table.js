@@ -185,7 +185,7 @@ const StickyHeadTable = ({ search }) => {
                               &times;
                             </button>
                             <Modal popup_index={coin.id} />
-                          </div>
+                          </div> 
                         )}
                       </Popup>
                     </TableRow>
