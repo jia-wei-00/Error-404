@@ -132,7 +132,7 @@ const StickyHeadTable = ({ search }) => {
                 ))}
               </TableRow>
             </TableHead>
-            <TableBody>
+            <TableBody className="tablebody">
               {apiStore.coin_list.length > 0 &&
                 apiStore.coin_list
                   .filter((coin) => coin.name.toLowerCase().includes(search))
