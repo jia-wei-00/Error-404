@@ -9,6 +9,7 @@ import { observer } from "mobx-react-lite";
 import Testing from "./components/testing";
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/material/styles";
+import ResponsiveAppBar from "./components/nav copy";
 
 const theme = createTheme({
   typography: {
@@ -28,6 +29,7 @@ function App() {
         {/* {authStore.user && <Nav />} */}
 
         <Nav />
+        <ResponsiveAppBar />
 
         {/* <Auth> */}
         <Routes>

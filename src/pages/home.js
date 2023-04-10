@@ -63,7 +63,7 @@ const Home = () => {
         <Wrapper>
           <div className="homepage">
             <div className="top-crypto" style={{ overflowX: 'scroll', display: 'flex', flexWrap: 'nowrap' }}>
-              {apiStore.coin_list.length > 0 ? (
+              {apiStore.coin_list && apiStore.coin_list.length > 0 ? (
                 apiStore.coin_list
                   .filter((coin) => coin.name.toLowerCase().includes(search))
                   .slice(0,topCryptoSlice)

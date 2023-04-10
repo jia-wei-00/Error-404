@@ -84,8 +84,6 @@ const StickyHeadTable = ({ search }) => {
 
   }, [authStore.user]);
 
-  console.log(authStore.user);
-
   const loading = () => {
     if (load < 100) {
       setLoad(load + 20);
@@ -149,7 +147,7 @@ const StickyHeadTable = ({ search }) => {
                         onClick={() => openModal(coin.id)}
                       >
                         <TableCell>
-                          {fireStore.favourite_list.length > 0 &&
+                          {fireStore.favourite_list && 
                             fireStore.favourite_list.includes(coin.id) ? (
                             <StarRateRoundedIcon
                               className="star"
