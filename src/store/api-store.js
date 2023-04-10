@@ -1,17 +1,37 @@
 import { makeObservable, action, observable } from "mobx";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
 export class apiStoreImplementation {
   coin_list = [];
   coin_details = {};
   favourite_data = [];
+  chart_data = [];
 
   constructor() {
     makeObservable(this, {
       coin_list: observable,
+      coin_details: observable,
+      chart_data: observable,
       fetchList: action.bound,
+      clearDetails: action.bound,
       fetchDetails: action.bound,
+      fetchChart: action.bound,
+      setDetails: action.bound,
+      setCoinLists: action.bound,
+      setChartData: action.bound,
     });
+  }
+
+  setCoinLists(props) {
+    this.coin_list = props;
+  }
+  setDetails(props) {
+    this.coin_details = props;
+  }
+  setChartData(props) {
+    this.chart_data = props;
   }
 
   fetchList() {
@@ -21,22 +41,44 @@ export class apiStoreImplementation {
       )
       .then((res) => {
         // console.log(res.data, "store")
-        this.coin_list = res.data;
+        this.setCoinLists(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
+        toast.error(err.message);
       });
   }
 
-  fetchDetails(id) {
+  clearDetails() {
+    this.coin_details = {};
+    this.chart_data = [];
+  }
+
+  fetchDetails(coin_id) {
     axios
-      .get(`https://api.coingecko.com/api/v3/coins/${id}`)
+      .get(`https://api.coingecko.com/api/v3/coins/${coin_id}`)
       .then((res) => {
         // console.log(res.data, "store")
-        this.coin_details = res.data;
+        this.setDetails(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(err.message);
+      });
+  }
+
+  fetchChart(coin_id) {
+    axios
+      .get(
+        `https://api.coingecko.com/api/v3/coins/${coin_id}/market_chart?vs_currency=myr&days=7&interval=hourly
+      `
+      )
+      .then((res) => {
+        // console.log(res.data, "store")
+        console.log(res.data);
+        this.setChartData(res.data.prices);
+      })
+      .catch((err) => {
+        toast.error(err.message);
       });
   }
 }

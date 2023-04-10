@@ -1,13 +1,28 @@
-import React, { useState } from "react";
-import { FormatListBulleted } from "@mui/icons-material";
-import { Grid } from "@mui/material";
+import React, { useState, useEffect } from "react";
+// import { FormatListBulleted } from "@mui/icons-material";
+// import { Grid } from "@mui/material";
 import "../styles/pages/favourite.scss";
-import { fireStore } from "../store";
+import { authStore, fireStore } from "../store";
 import { observer } from "mobx-react-lite";
 
-const Favourite = () => {
+function Coin({ id }) {
+  // Retrieve the coin data for the given ID and render it here
+  // This will likely involve making an API call to a cryptocurrency data source
+  return (
+    <div>
+      <h2>Coin ID: {id}</h2>
+      {/* Render the coin data here */}
+    </div>
+  );
+}
+
+
+const Favourite = (data) => {
   useEffect(() => {
-    fireStore.fetchFavouriteList();
+    if (authStore.user) {
+      const data = fireStore.fetchFavouriteList();
+      console.log(data);
+    }
   }, []);
   // search bar
   const [query, setQuery] = useState("");
@@ -18,16 +33,12 @@ const Favourite = () => {
 
   const handleSearchClick = () => {
     // use the query to search for results
+    console.log('hello');
   };
 
   return (
-    <div class="wrapper">
+  <div class="wrapper">
       <div class="search-bar">
-        <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-          <g>
-            <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
-          </g>
-        </svg>
         <input
           class="search-bar-input"
           type="search"
@@ -36,29 +47,23 @@ const Favourite = () => {
           onChange={handleInputChange}
         />
       </div>
-
-      <div class="grid-view-list">
-        <div class="change-view">
-          <button class="btnlist">
-            <FormatListBulleted fontSize="" />
-          </button>
-          <button class="btngrid">
-            <Grid fontSize="" />
-          </button>
-        </div>
-
-        <div class="card">
-          <img src="img_avatar.png" alt="Picture"></img>
-          <div class="container">
-            <h4>
-              <b>Bitcoin</b>
-            </h4>
-            <p>Current Trend</p>
-          </div>
-        </div>
-      </div>
+      <button onClick={handleSearchClick}>Search</button>
+      {/* <div class="grid-view-list"> */}
+    <div>
+      Favourite
+      <button
+        onClick={() => {
+          authStore.user && fireStore.getFavouriteList();
+        }}>
+        Post
+      </button>
     </div>
-  );
-};
+    <div>
+      {}
+    </div>
+</div>
+
+);
+      };
 
 export default observer(Favourite);
