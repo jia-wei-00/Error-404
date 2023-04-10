@@ -34,6 +34,10 @@ export class apiStoreImplementation {
     this.chart_data = props;
   }
 
+  setIsLoading(is_loading) {
+    this.is_loading = is_loading;
+  }
+
   fetchList() {
     axios
       .get(
@@ -73,8 +77,6 @@ export class apiStoreImplementation {
       `
       )
       .then((res) => {
-        // console.log(res.data, "store")
-        console.log(res.data);
         this.setChartData(res.data.prices);
       })
       .catch((err) => {

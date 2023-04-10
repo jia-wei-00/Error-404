@@ -7,9 +7,14 @@ import { StickyHeadTable } from "../components";
 import TextField from "@mui/material/TextField";
 import ParticleComponent from '../components/ParticleComponents';
 
+import Modal from "../components/details-modal.tsx";
+import "../components/details-modal.tsx";
+import Paper from "@mui/material/Paper";
 
 const Home = () => {
   const [search, setSearch] = useState("");
+  const [open, setOpen] = useState(false);
+  const [coinId, setCoinId] = useState("");
 
   useEffect(() => {
     apiStore.fetchList();
@@ -20,24 +25,33 @@ const Home = () => {
   return (
     <>
       <div>
-      <ParticleComponent />
-          <Wrapper>
-            <div className="homepage">
-              <div
-                className="top-crypto"
-                style={{
-                  // overflowX: "scroll",
-                  display: "flex",
-                  flexWrap: "nowrap",
-                }}
-              >
-                {apiStore.coin_list && apiStore.coin_list.length > 0 ? (
-                  apiStore.coin_list
-                    .filter((coin) => coin.name.toLowerCase().includes(search))
-                    .slice(0, 4)
-                    .map((coin, key) => {
-                      return (
-                        <div className="d-flex best-coin" key={key}>
+        <ParticleComponent />
+        <Wrapper>
+          <div className="homepage">
+            <div
+              className="top-crypto"
+              style={{
+                // overflowX: "scroll",
+                display: "flex",
+                flexWrap: "nowrap",
+              }}
+            >
+              {apiStore.coin_list && apiStore.coin_list.length > 0 ? (
+                apiStore.coin_list
+                  .filter((coin) => coin.name.toLowerCase().includes(search))
+                  .slice(0, 4)
+                  .map((coin, key) => {
+                    return (
+                      <Paper sx={{ width: "100%" }}>
+                        <div
+                          className="d-flex best-coin"
+                          key={key}
+                          onClick={() => {
+                            setOpen(true);
+                            setCoinId(coin.id);
+                            apiStore.clearDetails();
+                          }}
+                        >
                           <div className="best-coin-image">
                             <img src={coin.image} />
                           </div>
@@ -70,41 +84,28 @@ const Home = () => {
                             </div>
                           </div>
                         </div>
-                      );
-                    })
-                ) : (
-                  <div>Loading</div>
-                )}
-              </div>
-              <div className="crypto-search">
-                <TextField className="crypto-search-field"
-                  id="standard-basic"
-                  label="Search"
-                  variant="standard"
-                  onChange={(e) =>
-                    setSearch(e.target.value.toLocaleLowerCase())
-                  }
-                />
-              </div>
-              <StickyHeadTable search={search} />
+                      </Paper>
+                    );
+                  })
+              ) : (
+                <div>Loading</div>
+              )}
             </div>
-          </Wrapper>
+          </div>
+          <div className="crypto-search">
+            <TextField className="crypto-search-field"
+              id="standard-basic"
+              label="Search"
+              variant="standard"
+              onChange={(e) =>
+                setSearch(e.target.value.toLocaleLowerCase())
+              }
+            />
+          </div>
+          <StickyHeadTable search={search} />
+        </Wrapper>
       </div>
-
-      {/* <div>
-        {apiStore.coin_list.length > 0 ? (
-          apiStore.coin_list.slice(0, 4).map((coin, key) => {
-            return (
-              <>
-                {" "}
-              </>
-            );
-          })
-        ) : (
-          <li>Loading</li>
-        )}
-      </Particles>
-      </div> */}
+      <Modal popup_index={coinId} open={open} setOpen={setOpen} />
     </>
   );
 };
