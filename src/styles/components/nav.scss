@@ -3,14 +3,16 @@
 @import "../_mixins.scss";
 
 header {
-  background-color: $black;
+  background-color: rgb(236, 236, 69);
   transition: $transition;
   backdrop-filter: blur(15px);
-  color: $white;
+  color: black;
   width: 100vw;
-  box-shadow: 1px 1px 17px -3px rgba(0, 0, 0, 0.75);
-  -webkit-box-shadow: 1px 1px 17px -3px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 1px 1px 17px -3px rgba(0, 0, 0, 0.75);
+  height: 4.1vw;
+  border-radius: 0 0 30px 30px;
+  // box-shadow: 1px 1px 17px -3px rgba(0, 0, 0, 0.75);
+  // -webkit-box-shadow: 1px 1px 17px -3px rgba(0, 0, 0, 0.75);
+  // -moz-box-shadow: 1px 1px 17px -3px rgba(0, 0, 0, 0.75);
 
   & > div {
     display: flex;
@@ -20,13 +22,14 @@ header {
   }
 
   a {
-    color: $white;
+    color: black
   }
 }
 
 .menu {
   display: flex;
   column-gap: 15px;
+  border-radius: 10px;
 
   &-navbar {
     display: flex;

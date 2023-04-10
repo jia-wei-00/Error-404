@@ -119,7 +119,7 @@ const StickyHeadTable = ({ search }) => {
                                   />
                                 </div>
                                 <div className="d-flex cell-text">
-                                  {coin.name} + {coin.symbol}
+                                  {coin.name} <p className='cell-text-symbol'>{coin.symbol}</p>
                                 </div>
                               </div>
                             </TableCell>
