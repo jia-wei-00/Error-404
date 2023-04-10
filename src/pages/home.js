@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import "../styles/pages/home.scss";
 import { apiStore } from "../store";
@@ -8,6 +8,19 @@ import TextField from "@mui/material/TextField";
 
 const Home = () => {
   const [search, setSearch] = useState("");
+
+  // const particlesInit = useCallback(async (engine) => {
+  //   console.log(engine);
+  //   await loadFull(engine);
+  // }, []);
+
+  // const particlesLoaded = useCallback(async (container) => {
+  //   await console.log(container);
+  // }, []);
+
+  // useEffect(() => {
+  //   getCoinList();
+  // }, []);
 
   useEffect(() => {
     apiStore.fetchList();
@@ -30,6 +43,9 @@ const Home = () => {
                       <div className="d-flex best-coin" key={key}>
                         <div className="best-coin-image">
                           <img src={coin.image} />
+                        </div>
+                        <div>
+                          {coin.name}
                         </div>
                         <div className="d-flex best-coin-price">
                           <p>Current Price:</p>
@@ -77,6 +93,21 @@ const Home = () => {
           </div>
         </Wrapper>
       </div>
+
+      {/* <div>
+        {apiStore.coin_list.length > 0 ? (
+          apiStore.coin_list.slice(0, 4).map((coin, key) => {
+            return (
+              <>
+                {" "}
+              </>
+            );
+          })
+        ) : (
+          <li>Loading</li>
+        )}
+      </Particles>
+      </div> */}
     </>
   );
 };
