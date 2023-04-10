@@ -2,40 +2,11 @@
 @import "../_functions.scss";
 @import "../_mixins.scss";
 
-header {
-  background-color: $black;
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.7);
   transition: $transition;
   backdrop-filter: blur(15px);
-  color: $white;
-  width: 100vw;
-  box-shadow: 1px 1px 17px -3px rgba(0, 0, 0, 0.75);
-  -webkit-box-shadow: 1px 1px 17px -3px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 1px 1px 17px -3px rgba(0, 0, 0, 0.75);
-
-  & > div {
-    display: flex;
-    padding: 10px;
-    justify-content: space-between;
-    margin: 0 auto;
-  }
-
-  a {
-    color: $white;
-  }
-}
-
-.menu {
-  display: flex;
-  column-gap: 15px;
-
-  &-navbar {
-    display: flex;
-    column-gap: 15px;
-  }
-}
-
-.input {
-  display: flex;
-  flex-direction: column;
-  row-gap: 15px;
 }

@@ -13,7 +13,10 @@ import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
 import StarBorderRoundedIcon from "@mui/icons-material/StarBorderRounded";
 import "../styles/pages/home.scss";
 import { observer } from "mobx-react-lite";
+import { reaction, when } from "mobx";
 import Button from "@mui/material/Button";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const columns = [
   { id: "favorite", label: "", width: 2, align: "left" },
@@ -61,10 +64,10 @@ const StickyHeadTable = ({ search }) => {
   const [coinId, setCoinId] = useState("");
 
   useEffect(() => {
-    if (apiStore.coin_list.length > 0 && authStore.user) {
+    if (authStore.user) {
       fireStore.fetchFavouriteList();
     }
-  }, [fireStore.favourite_list, fireStore.postFavouriteAPI, authStore.user]);
+  }, [authStore.user]);
 
   const loading = () => {
     if (load < 100) {
@@ -72,16 +75,26 @@ const StickyHeadTable = ({ search }) => {
     }
   };
 
-  const favorite = (id) => {
-    if (authStore.user) {
+  const favorite = (event, id) => {
+    event.stopPropagation();
+    if (!authStore.user) {
+      authStore.setLoginModal(true);
+    } else {
       fireStore.postFavouriteAPI(id);
     }
   };
 
+  const openModal = (id) => {
+    setOpen(true);
+    setCoinId(id);
+    apiStore.clearDetails();
+  };
+
+  console.log(apiStore.coin_list);
   return (
     <>
       <Paper sx={{ width: "100%" }}>
-        <TableContainer sx={{ overflow: "auto" }}>
+        <TableContainer className="table" sx={{ overflow: "auto" }}>
           <Table
             stickyHeader
             aria-label="sticky table"
@@ -105,7 +118,7 @@ const StickyHeadTable = ({ search }) => {
                 ))}
               </TableRow>
             </TableHead>
-            <TableBody>
+            <TableBody className="tablebody">
               {apiStore.coin_list.length > 0 &&
                 apiStore.coin_list
                   .filter((coin) => coin.name.toLowerCase().includes(search))
@@ -117,23 +130,19 @@ const StickyHeadTable = ({ search }) => {
                         role="checkbox"
                         tabIndex={-1}
                         key={key}
-                        onClick={() => {
-                          setOpen(true);
-                          setCoinId(coin.id);
-                          apiStore.clearDetails();
-                          console.log(open);
-                        }}
+                        onClick={() => openModal(coin.id)}
                       >
                         <TableCell>
                           {fireStore.favourite_list &&
                           fireStore.favourite_list.includes(coin.id) ? (
                             <StarRateRoundedIcon
-                              onClick={() => favorite(coin.id)}
                               className="star"
+                              sx={{ color: "#fc6" }}
+                              onClick={(event) => favorite(event, coin.id)}
                             />
                           ) : (
                             <StarBorderRoundedIcon
-                              onClick={() => favorite(coin.id)}
+                              onClick={(event) => favorite(event, coin.id)}
                             />
                           )}
                         </TableCell>
@@ -145,7 +154,7 @@ const StickyHeadTable = ({ search }) => {
                               <img className="cell-images" src={coin.image} />
                             </div>
                             <div className="d-flex cell-text">
-                              {coin.name} + {coin.symbol}
+                              {coin.name} <p>{coin.symbol}</p>
                             </div>
                           </div>
                         </TableCell>
@@ -198,7 +207,10 @@ const StickyHeadTable = ({ search }) => {
           </Table>
         </TableContainer>
       </Paper>
-      {load < 100 && (
+      {load <
+        apiStore.coin_list.filter((coin) =>
+          coin.name.toLowerCase().includes(search)
+        ).length && (
         <Button
           variant="contained"
           sx={{
@@ -217,6 +229,13 @@ const StickyHeadTable = ({ search }) => {
       )}
 
       <Modal popup_index={coinId} open={open} setOpen={setOpen} />
+
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={apiStore.coin_list.length === 0}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </>
   );
 };

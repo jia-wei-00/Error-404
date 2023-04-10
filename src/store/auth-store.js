@@ -9,13 +9,17 @@ import fireStore from "./firestore-store";
 export class authStoreImplementation {
   user = null;
   username = null;
+  login_modal = false;
 
   constructor() {
     makeObservable(this, {
       user: observable,
+      username: observable,
+      login_modal: observable,
       setUser: action.bound,
       signInAPI: action.bound,
       signOut: action.bound,
+      setLoginModal: action.bound,
     });
 
     auth.onAuthStateChanged((user) => {
@@ -33,6 +37,10 @@ export class authStoreImplementation {
 
   setUsername(username) {
     this.username = username;
+  }
+
+  setLoginModal(props) {
+    this.login_modal = props;
   }
 
   signInAPI(email, password) {
@@ -91,27 +99,31 @@ export class authStoreImplementation {
   }
 
   signOut() {
-    const id = toast.loading("Please wait...");
-    auth
-      .signOut()
-      .then(() => {
-        toast.update(id, {
-          render: "Successfully Logout",
-          type: "success",
-          isLoading: false,
-          autoClose: 5000,
+    return new Promise((resolve, reject) => {
+      const id = toast.loading("Please wait...");
+      auth
+        .signOut()
+        .then(() => {
+          toast.update(id, {
+            render: "Successfully Logout",
+            type: "success",
+            isLoading: false,
+            autoClose: 5000,
+          });
+          this.setUser(null);
+          this.setUsername(null);
+          resolve(true);
+        })
+        .catch((error) => {
+          toast.update(id, {
+            render: error.message,
+            type: "error",
+            isLoading: false,
+            autoClose: 5000,
+          });
+          reject(error.message);
         });
-        this.setUser(null);
-        fireStore.setFavouriteList([]);
-      })
-      .catch((error) => {
-        toast.update(id, {
-          render: error.message,
-          type: "error",
-          isLoading: false,
-          autoClose: 5000,
-        });
-      });
+    });
   }
 
   signUp(email, password) {

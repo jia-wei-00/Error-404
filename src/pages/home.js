@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { observer } from "mobx-react-lite";
 import "../styles/pages/home.scss";
-import { apiStore } from "../store";
+import { apiStore, fireStore } from "../store";
 import { Wrapper } from "../components";
 import { StickyHeadTable } from "../components";
 import TextField from "@mui/material/TextField";
+import ParticleComponent from '../components/ParticleComponents';
+
 import Modal from "../components/details-modal.tsx";
 import "../components/details-modal.tsx";
 import Paper from "@mui/material/Paper";
@@ -23,10 +25,18 @@ const Home = () => {
   return (
     <>
       <div>
+        <ParticleComponent />
         <Wrapper>
           <div className="homepage">
-            <div className="top-crypto">
-              {apiStore.coin_list.length > 0 ? (
+            <div
+              className="top-crypto"
+              style={{
+                // overflowX: "scroll",
+                display: "flex",
+                flexWrap: "nowrap",
+              }}
+            >
+              {apiStore.coin_list && apiStore.coin_list.length > 0 ? (
                 apiStore.coin_list
                   .filter((coin) => coin.name.toLowerCase().includes(search))
                   .slice(0, 4)
@@ -45,6 +55,7 @@ const Home = () => {
                           <div className="best-coin-image">
                             <img src={coin.image} />
                           </div>
+                          <div className="best-coin-name">{coin.name}</div>
                           <div className="d-flex best-coin-price">
                             <p>Current Price:</p>
                             <p>RM {coin.current_price}</p>
@@ -80,16 +91,18 @@ const Home = () => {
                 <div>Loading</div>
               )}
             </div>
-            <div className="crypto-search">
-              <TextField
-                id="standard-basic"
-                label="Search"
-                variant="standard"
-                onChange={(e) => setSearch(e.target.value.toLocaleLowerCase())}
-              />
-            </div>
-            <StickyHeadTable search={search} />
           </div>
+          <div className="crypto-search">
+            <TextField className="crypto-search-field"
+              id="standard-basic"
+              label="Search"
+              variant="standard"
+              onChange={(e) =>
+                setSearch(e.target.value.toLocaleLowerCase())
+              }
+            />
+          </div>
+          <StickyHeadTable search={search} />
         </Wrapper>
       </div>
       <Modal popup_index={coinId} open={open} setOpen={setOpen} />
