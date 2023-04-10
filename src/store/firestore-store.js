@@ -48,6 +48,7 @@ export class firestoreStoreImplementation {
                 favourite_list: tmp_favorite_list,
               })
               .then(() => {
+                this.setFavouriteList(tmp_favorite_list);
                 console.log("Document updated successfully!");
               })
               .catch((error) => {
@@ -61,6 +62,7 @@ export class firestoreStoreImplementation {
                 favourite_list: tmp_favorite_list,
               })
               .then(() => {
+                this.setFavouriteList(tmp_favorite_list);
                 console.log("Document created successfully!");
               })
               .catch((error) => {

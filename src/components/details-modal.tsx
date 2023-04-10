@@ -32,13 +32,13 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ popup_index, open, setOpen }) => {
   useEffect(() => {
-    apiStore.fetchDetails(popup_index);
-    apiStore.fetchChart(popup_index);
+    // apiStore.fetchDetails(popup_index);
+    // apiStore.fetchChart(popup_index);
   }, [popup_index]);
 
   const coin_details: CoinDetails = apiStore.coin_details || {};
   let coin_chart = apiStore.chart_data;
-  console.log(coin_details);
+  // console.log(coin_details);
   // console.log(coin_chart);
 
   // ---------------------------------------------Chart---------------------------------------------

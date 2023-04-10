@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import "../styles/pages/home.scss";
-import { apiStore } from "../store";
+import { apiStore, fireStore } from "../store";
 import { Wrapper } from "../components";
 import { StickyHeadTable } from "../components";
 import TextField from "@mui/material/TextField";
@@ -23,7 +23,7 @@ const Home = () => {
   // }, []);
 
   useEffect(() => {
-    apiStore.fetchList();
+    apiStore.fetchList();  
   }, []);
 
   // log(apiStore.coin_list);
