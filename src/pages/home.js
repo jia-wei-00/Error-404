@@ -1,16 +1,45 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { observer } from "mobx-react-lite";
 import "../styles/pages/home.scss";
 import { apiStore } from "../store";
 import { Wrapper } from "../components";
 import { StickyHeadTable } from "../components";
 import TextField from "@mui/material/TextField";
+// import Particles from "react-particles";
+import { loadFull } from "tsparticles";
+import zIndex from "@mui/material/styles/zIndex";
+
 
 const Home = () => {
   const [search, setSearch] = useState("");
+  const [width, setWidth] = useState(0);
+  const matchesTablet = 1223;
+  let topCryptoSlice = 4;
+  // const matchesMobile = 768;
+
+  function handleResize() {
+    setWidth(document.querySelector('.homepage').clientWidth);
+    if (width<=matchesTablet){
+      topCryptoSlice= 2;
+    }
+  }
+
+  window.addEventListener('resize',handleResize);
+
+
+  // const particlesInit = useCallback(async (engine) => {
+  //   console.log(engine);
+  //   await loadFull(engine);
+  // }, []);
+
+  // const particlesLoaded = useCallback(async (container) => {
+  //   await console.log(container);
+  // }, []);
+
 
   useEffect(() => {
     apiStore.fetchList();
+    handleResize();
   }, []);
 
   // log(apiStore.coin_list);
@@ -20,16 +49,19 @@ const Home = () => {
       <div>
         <Wrapper>
           <div className="homepage">
-            <div className="top-crypto">
+            <div className="top-crypto" style={{ overflowX: 'scroll', display: 'flex', flexWrap: 'nowrap' }}>
               {apiStore.coin_list.length > 0 ? (
                 apiStore.coin_list
                   .filter((coin) => coin.name.toLowerCase().includes(search))
-                  .slice(0, 4)
+                  .slice(0,topCryptoSlice)
                   .map((coin, key) => {
                     return (
                       <div className="d-flex best-coin" key={key}>
                         <div className="best-coin-image">
                           <img src={coin.image} />
+                        </div>
+                        <div className="best-coin-name">
+                          {coin.name}
                         </div>
                         <div className="d-flex best-coin-price">
                           <p>Current Price:</p>
@@ -77,6 +109,23 @@ const Home = () => {
           </div>
         </Wrapper>
       </div>
+
+      <div>Width: {width}</div>
+
+      {/* <div>
+        {apiStore.coin_list.length > 0 ? (
+          apiStore.coin_list.slice(0, 4).map((coin, key) => {
+            return (
+              <>
+                {" "}
+              </>
+            );
+          })
+        ) : (
+          <li>Loading</li>
+        )}
+      </Particles>
+      </div> */}
     </>
   );
 };
