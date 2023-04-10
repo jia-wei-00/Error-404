@@ -35,7 +35,6 @@ export class firestoreStoreImplementation {
     if (props) {
       if (tmp_favorite_list.includes(props)) {
         tmp_favorite_list.splice(tmp_favorite_list.indexOf(props), 1);
-        console.log(tmp_favorite_list);
       } else {
         tmp_favorite_list.push(props);
       }
@@ -47,7 +46,6 @@ export class firestoreStoreImplementation {
         .get()
         .then((doc) => {
           if (doc.exists) {
-            console.log("Document exists!");
             docRef
               .update({
                 favourite_list: tmp_favorite_list,
@@ -62,7 +60,6 @@ export class firestoreStoreImplementation {
                 });
               })
               .catch((error) => {
-                console.log("Error updating document:", error);
                 toast.update(id, {
                   render: error.message,
                   type: "error",
@@ -71,23 +68,25 @@ export class firestoreStoreImplementation {
                 });
               });
           } else {
-            console.log("Document does not exist!");
             docRef
               .set({
                 favourite_list: tmp_favorite_list,
               })
               .then(() => {
                 this.setFavouriteList(tmp_favorite_list);
-                console.log("Document created successfully!");
               })
               .catch((error) => {
-                console.log("Error creating document:", error);
                 toast.error(error.message);
               });
           }
         })
         .catch((error) => {
-          console.log("Error getting document:", error);
+          toast.update(id, {
+            render: error.message,
+            type: "error",
+            isLoading: false,
+            autoClose: 5000,
+          });
         });
     } else {
       toast.update(id, {

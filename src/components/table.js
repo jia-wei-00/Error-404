@@ -91,7 +91,6 @@ const StickyHeadTable = ({ search, slice }) => {
     apiStore.clearDetails();
   };
 
-  console.log(apiStore.coin_list);
   return (
     <>
       <Paper sx={{ width: "100%", margin: "0 0 30px 0" }}>
