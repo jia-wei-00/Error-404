@@ -11,7 +11,6 @@ import ParticleComponent from '../components/ParticleComponents';
 const Home = () => {
   const [search, setSearch] = useState("");
 
-
   useEffect(() => {
     apiStore.fetchList();
   }, []);
