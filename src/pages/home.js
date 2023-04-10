@@ -4,32 +4,42 @@ import "../styles/pages/home.scss";
 import { apiStore } from "../store";
 import { Wrapper } from "../components";
 import { StickyHeadTable } from "../components";
-import { log } from "../tools";
 import TextField from "@mui/material/TextField";
-import Particles from "react-particles";
+// import Particles from "react-particles";
 import { loadFull } from "tsparticles";
 import zIndex from "@mui/material/styles/zIndex";
-// import multiImage from "tsparticles-preset-multi-image";
 
 
 const Home = () => {
   const [search, setSearch] = useState("");
+  const [width, setWidth] = useState(0);
+  const matchesTablet = 1223;
+  let topCryptoSlice = 4;
+  // const matchesMobile = 768;
 
-  const particlesInit = useCallback(async (engine) => {
-    console.log(engine);
-    await loadFull(engine);
-  }, []);
+  function handleResize() {
+    setWidth(document.querySelector('.homepage').clientWidth);
+    if (width<=matchesTablet){
+      topCryptoSlice= 2;
+    }
+  }
 
-  const particlesLoaded = useCallback(async (container) => {
-    await console.log(container);
-  }, []);
+  window.addEventListener('resize',handleResize);
 
-  // useEffect(() => {
-  //   getCoinList();
+
+  // const particlesInit = useCallback(async (engine) => {
+  //   console.log(engine);
+  //   await loadFull(engine);
   // }, []);
+
+  // const particlesLoaded = useCallback(async (container) => {
+  //   await console.log(container);
+  // }, []);
+
 
   useEffect(() => {
     apiStore.fetchList();
+    handleResize();
   }, []);
 
   // log(apiStore.coin_list);
@@ -37,85 +47,13 @@ const Home = () => {
   return (
     <>
       <div>
-        {/* <Particles  id="tsparticles" style={{zIndex: '-1'}}
-            init={particlesInit}
-            loaded={particlesLoaded}
-            options={{
-    fpsLimit: 60,
-    background: {
-        color: {
-            value: "#ffffff",
-        },
-    },
-    particles: {
-        color: {
-            value: ["#e6ebf0", "#c3d0e5", "#8ca6d1", "#687fa9"],
-        },
-        shape: {
-            type: "circle",
-        },
-        size: {
-            value: 5,
-            random: true,
-        },
-        opacity: {
-            value: 0.6,
-            random: true,
-        },
-        lineLinked: {
-            enable: true,
-            distance: 150,
-            color: "#ffffff",
-            opacity: 0.4,
-            width: 1,
-        },
-        move: {
-            enable: true,
-            speed: 1,
-            direction: "none",
-            random: false,
-            straight: false,
-            outMode: "bounce",
-            bounce: false,
-            attract: {
-                enable: true,
-                rotateX: 600,
-                rotateY: 1200,
-            },
-        },
-        number: {
-            value: 100,
-        },
-        images: {
-            sources: [
-                {
-                    density: 1,
-                    image: {
-                        src: "/path/to/your/image1.png",
-                    },
-                },
-                {
-                    density: 1,
-                    image: {
-                        src: "/path/to/your/image2.png",
-                    },
-                },
-                // Add as many images as you want
-            ],
-        },
-    },
-    detectRetina: true,
-    preset: multiImage,
-}} */}
-
-        {/* /> */}
         <Wrapper>
           <div className="homepage">
             <div className="top-crypto" style={{ overflowX: 'scroll', display: 'flex', flexWrap: 'nowrap' }}>
               {apiStore.coin_list.length > 0 ? (
                 apiStore.coin_list
                   .filter((coin) => coin.name.toLowerCase().includes(search))
-                  .slice(0, 4)
+                  .slice(0,topCryptoSlice)
                   .map((coin, key) => {
                     return (
                       <div className="d-flex best-coin" key={key}>
@@ -171,6 +109,8 @@ const Home = () => {
           </div>
         </Wrapper>
       </div>
+
+      <div>Width: {width}</div>
 
       {/* <div>
         {apiStore.coin_list.length > 0 ? (

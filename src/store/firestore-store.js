@@ -25,7 +25,7 @@ export class firestoreStoreImplementation {
   }
 
   postFavouriteAPI(props) {
-    const tmp_favorite_list = [...this.favourite_list];
+    let tmp_favorite_list = [...this.favourite_list];
 
     if (props) {
       if (tmp_favorite_list.includes(props)) {
@@ -52,7 +52,7 @@ export class firestoreStoreImplementation {
               })
               .catch((error) => {
                 console.log("Error updating document:", error);
-                toast.error(error.message);
+                toast.error(error);
               });
           } else {
             console.log("Document does not exist!");

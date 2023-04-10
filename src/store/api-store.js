@@ -7,7 +7,6 @@ export class apiStoreImplementation {
   coin_list = [];
   coin_details = {};
   favourite_data = [];
-  SEVEN_DAYS = 604800;
   chart_data = [];
 
   constructor() {
@@ -23,10 +22,6 @@ export class apiStoreImplementation {
       setCoinLists: action.bound,
       setChartData: action.bound,
     });
-  }
-
-  clearDetails() {
-    this.coin_details = {};
   }
 
   setCoinLists(props) {
@@ -54,6 +49,11 @@ export class apiStoreImplementation {
       });
   }
 
+  clearDetails() {
+    this.coin_details = {};
+    this.chart_data = [];
+  }
+
   fetchDetails(coin_id) {
     axios
       .get(`https://api.coingecko.com/api/v3/coins/${coin_id}`)
@@ -66,17 +66,15 @@ export class apiStoreImplementation {
       });
   }
 
-  fetchChart() {
-    const time = Date.now();
-    const from = time - this.SEVEN_DAYS;
-
+  fetchChart(coin_id) {
     axios
       .get(
-        `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=myr&from=${from}&to=${time}
+        `https://api.coingecko.com/api/v3/coins/${coin_id}/market_chart?vs_currency=myr&days=7&interval=hourly
       `
       )
       .then((res) => {
         // console.log(res.data, "store")
+        console.log(res.data);
         this.setChartData(res.data.prices);
       })
       .catch((err) => {
