@@ -89,6 +89,13 @@ export class firestoreStoreImplementation {
         .catch((error) => {
           console.log("Error getting document:", error);
         });
+    } else {
+      toast.update(id, {
+        render: "No coin id provided!",
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      });
     }
   }
 

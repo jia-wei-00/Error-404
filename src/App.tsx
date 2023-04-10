@@ -26,9 +26,6 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        {/* {authStore.user && <Nav />} */}
-
-        {/* <Nav /> */}
         <ResponsiveAppBar />
 
         {/* <Auth> */}
@@ -36,7 +33,6 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/favorite" element={<Favourite />} />
           <Route path="/testing" element={<Testing />} />
-          {/* <Route path="/" element={<Login />} /> */}
         </Routes>
         {/* </Auth> */}
         <ToastContainer theme="dark" />

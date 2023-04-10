@@ -87,6 +87,8 @@ const LoginModal = () => {
               padding: "30px 25px 50px 25px",
               marginBottom: "20px",
               rowGap: "30px",
+              display: "flex",
+              flexDirection: "column",
             }}
             elevation={2}
             className="input"
