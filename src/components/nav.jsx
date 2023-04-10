@@ -16,14 +16,26 @@ import { Link } from "react-router-dom";
 import { authStore } from "../store";
 import { observer } from "mobx-react-lite";
 import "../styles/components/nav.scss";
+import LoginModal from "./login-modal";
 
 const pages = [
   { name: "Home", path: "/" },
   { name: "Favorite", path: "/favorite" },
 ];
+
 const settings = ["Logout"];
 
 function ResponsiveAppBar() {
+  const [filteredPages, setFilteredPages] = React.useState([]);
+
+  React.useEffect(() => {
+    if (authStore.user) {
+      setFilteredPages(pages);
+    } else {
+      setFilteredPages(pages.filter((page) => page.name !== "Favorite"));
+    }
+  }, [authStore.user]);
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -103,7 +115,7 @@ function ResponsiveAppBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map(({ name, path }, key) => {
+              {filteredPages.map(({ name, path }, key) => {
                 return (
                   <MenuItem key={key} onClick={handleCloseNavMenu}>
                     <Link to={path} className="link">
@@ -134,7 +146,7 @@ function ResponsiveAppBar() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page, key) => (
+            {filteredPages.map((page, key) => (
               <Button
                 key={key}
                 sx={{ my: 2, color: "white", display: "block" }}
@@ -203,6 +215,7 @@ function ResponsiveAppBar() {
           </Box>
         </Toolbar>
       </Container>
+      <LoginModal />
     </AppBar>
   );
 }
