@@ -37,8 +37,11 @@ type MyDatum = { timestamp: Date; price: number };
 
 const Modal: React.FC<ModalProps> = ({ popup_index, open, setOpen }) => {
   useEffect(() => {
-    // apiStore.fetchDetails(popup_index);
-    // apiStore.fetchChart(popup_index);
+    if(popup_index) {
+      apiStore.fetchDetails(popup_index);
+      apiStore.fetchChart(popup_index);
+    }
+    
   }, [popup_index]);
 
   const coin_details: CoinDetails = apiStore.coin_details || {};
