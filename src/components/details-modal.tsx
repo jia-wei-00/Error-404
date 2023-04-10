@@ -3,14 +3,28 @@ import "../styles/components/details-modal.scss";
 import { observer } from "mobx-react-lite";
 import { apiStore } from "../store";
 import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
 import Paper from "@mui/material/Paper";
-import { AxisOptions, Chart, ChartOptions } from "react-charts";
-import { Backdrop } from "@mui/material";
-import { CircularProgress } from "@mui/material";
+import { AxisOptions, Chart } from "react-charts";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { createTheme } from "@mui/material/styles";
+import ToggleButton from "@mui/material/ToggleButton";
+import StarRoundedIcon from "@mui/icons-material/StarRounded";
 
-interface CoinDetails {
+declare module "@mui/material/styles" {
+  interface BreakpointOverrides {
+    xs: false;
+    sm: false;
+    md: false;
+    lg: false;
+    xl: false;
+    mobile: true;
+    tablet: true;
+    laptop: true;
+    desktop: true;
+  }
+}
+
+type CoinDetails = {
   name?: string;
   description?: { en?: string };
   image?: { large?: string };
@@ -25,23 +39,22 @@ interface CoinDetails {
     market_cap?: { myr?: number };
     total_volume?: { myr?: number };
   };
-}
+};
 
-interface ModalProps {
+type ModalProps = {
   popup_index: number;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-}
+};
 
 type MyDatum = { timestamp: Date; price: number };
 
 const Modal: React.FC<ModalProps> = ({ popup_index, open, setOpen }) => {
   useEffect(() => {
-    if(popup_index) {
+    if (popup_index) {
       apiStore.fetchDetails(popup_index);
       apiStore.fetchChart(popup_index);
     }
-    
   }, [popup_index]);
 
   const coin_details: CoinDetails = apiStore.coin_details || {};
@@ -92,12 +105,26 @@ const Modal: React.FC<ModalProps> = ({ popup_index, open, setOpen }) => {
     ? (coin_details.description.en as string)
     : "";
 
+  const theme = createTheme({
+    breakpoints: {
+      values: {
+        mobile: 520,
+        tablet: 900,
+        laptop: 1200,
+        desktop: 1536,
+      },
+    },
+  });
+
+  const fullScreen = useMediaQuery(theme.breakpoints.down("mobile"));
+
   return (
     <Dialog
+      fullScreen={fullScreen}
       onClose={() => setOpen(false)}
       open={open}
       aria-labelledby="responsive-dialog-title"
-      maxWidth="xl"
+      maxWidth="desktop"
     >
       <Paper className="modal" sx={{ padding: "1rem", position: "relative" }}>
         {coin_details && coin_chart.length === 0 ? (
@@ -109,10 +136,10 @@ const Modal: React.FC<ModalProps> = ({ popup_index, open, setOpen }) => {
           </div>
         ) : (
           <>
-            <div className="modal-close">
-              <button onClick={handleClose}>✕</button>
-            </div>
             <div className="content">
+              <div className="modal-close">
+                <button onClick={handleClose}>✕</button>
+              </div>
               <div className="box-main">
                 <div className="box-main-1">
                   <img
@@ -128,9 +155,13 @@ const Modal: React.FC<ModalProps> = ({ popup_index, open, setOpen }) => {
                   </h2>
                 </div>
                 <div className="box-main-2">
-                  <div
-                    dangerouslySetInnerHTML={{ __html: dangerous_html }}
-                  ></div>
+                  {dangerous_html === "" ? (
+                    <p>No description available</p>
+                  ) : (
+                    <div
+                      dangerouslySetInnerHTML={{ __html: dangerous_html }}
+                    ></div>
+                  )}
                 </div>
                 <div className="box-main-3">
                   <div>

@@ -4,6 +4,10 @@
 
 $box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
 
+::-webkit-scrollbar {
+  width: 0;
+}
+
 .modal {
   overflow-y: hidden;
   width: 80rem;
@@ -24,9 +28,9 @@ $box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
     right: 0;
 
     & > button {
-      font-size: 1rem;
+      font-size: 1.5rem;
       background-color: #ffffff;
-      padding: 0.3rem;
+      padding: 0;
       border-radius: 100%;
       border: 0;
     }
@@ -121,19 +125,19 @@ $box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
     }
   }
 
-  & > .close {
-    cursor: pointer;
-    position: absolute;
-    display: block;
-    padding: 2px 5px;
-    line-height: 20px;
-    right: -10px;
-    top: -10px;
-    font-size: 24px;
-    background: #ffffff;
-    border-radius: 18px;
-    border: 1px solid #cfcece;
-  }
+  // & > .close {
+  //   cursor: pointer;
+  //   position: absolute;
+  //   display: block;
+  //   padding: 2px 5px;
+  //   line-height: 20px;
+  //   right: -10px;
+  //   top: -10px;
+  //   font-size: 24px;
+  //   background: #ffffff;
+  //   border-radius: 18px;
+  //   border: 1px solid #cfcece;
+  // }
 }
 
 @media screen and (max-width: 1370px) {
@@ -169,7 +173,7 @@ $box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
 
 @media screen and (max-width: 600px) {
   .modal {
-    width: 320px;
+    width: 420px;
 
     & > .content {
       & > .box-main {
@@ -177,6 +181,20 @@ $box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
         display: flex;
         flex-direction: column;
         min-height: 100vh;
+      }
+    }
+  }
+}
+@media screen and (max-width: 520px) {
+  .modal {
+    width: 100%;
+
+    & > .content {
+      & > .box-main {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        min-height: 70vh;
       }
     }
   }
