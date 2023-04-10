@@ -92,7 +92,7 @@ const StickyHeadTable = ({ search }) => {
   return (
     <>
       <Paper sx={{ width: "100%" }}>
-        <TableContainer sx={{ overflow: "auto" }}>
+        <TableContainer className="table" sx={{ overflow: "auto" }}>
           <Table
             stickyHeader
             aria-label="sticky table"
@@ -116,7 +116,7 @@ const StickyHeadTable = ({ search }) => {
                 ))}
               </TableRow>
             </TableHead>
-            <TableBody>
+            <TableBody className="tablebody">
               {apiStore.coin_list.length > 0 &&
                 apiStore.coin_list
                   .filter((coin) => coin.name.toLowerCase().includes(search))
@@ -151,7 +151,7 @@ const StickyHeadTable = ({ search }) => {
                               <img className="cell-images" src={coin.image} />
                             </div>
                             <div className="d-flex cell-text">
-                              {coin.name} + {coin.symbol}
+                              {coin.name}  <p>{coin.symbol}</p>
                             </div>
                           </div>
                         </TableCell>
