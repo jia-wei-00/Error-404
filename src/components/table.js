@@ -224,7 +224,7 @@ const StickyHeadTable = ({ search, slice }) => {
             sx={{
               fontFamily: "Poppins, sans-serif",
               backgroundColor: "black",
-              margin: 3,
+              margin: 2,
               ":hover": {
                 backgroundColor: "#fc6",
                 color: "black",
