@@ -5,9 +5,14 @@ import { apiStore } from "../store";
 import { Wrapper } from "../components";
 import { StickyHeadTable } from "../components";
 import TextField from "@mui/material/TextField";
+import Modal from "../components/details-modal.tsx";
+import "../components/details-modal.tsx";
+import Paper from "@mui/material/Paper";
 
 const Home = () => {
   const [search, setSearch] = useState("");
+  const [open, setOpen] = useState(false);
+  const [coinId, setCoinId] = useState("");
 
   useEffect(() => {
     apiStore.fetchList();
@@ -27,38 +32,48 @@ const Home = () => {
                   .slice(0, 4)
                   .map((coin, key) => {
                     return (
-                      <div className="d-flex best-coin" key={key}>
-                        <div className="best-coin-image">
-                          <img src={coin.image} />
-                        </div>
-                        <div className="d-flex best-coin-price">
-                          <p>Current Price:</p>
-                          <p>RM {coin.current_price}</p>
-                        </div>
-                        <div className="best-coin-24HL">
-                          <div className="d-flex best-coin-24HL-high">
-                            <div>
-                              <b>ATH (Today)</b>
+                      <Paper sx={{ width: "100%" }}>
+                        <div
+                          className="d-flex best-coin"
+                          key={key}
+                          onClick={() => {
+                            setOpen(true);
+                            setCoinId(coin.id);
+                            apiStore.clearDetails();
+                          }}
+                        >
+                          <div className="best-coin-image">
+                            <img src={coin.image} />
+                          </div>
+                          <div className="d-flex best-coin-price">
+                            <p>Current Price:</p>
+                            <p>RM {coin.current_price}</p>
+                          </div>
+                          <div className="best-coin-24HL">
+                            <div className="d-flex best-coin-24HL-high">
+                              <div>
+                                <b>ATH (Today)</b>
+                              </div>
+                              <h2>{coin.high_24h}</h2>
                             </div>
-                            <h2>{coin.high_24h}</h2>
-                          </div>
-                          <div className="d-flex best-coin-24HL-low">
-                            <div>
-                              <b>ATL (Today)</b>
+                            <div className="d-flex best-coin-24HL-low">
+                              <div>
+                                <b>ATL (Today)</b>
+                              </div>
+                              <h2>{coin.low_24h}</h2>
                             </div>
-                            <h2>{coin.low_24h}</h2>
+                          </div>
+                          <div className="d-flex best-coin-mc">
+                            <div className="best-coin-mc-title">
+                              <b>Total Market Cap</b>
+                            </div>
+                            <div>
+                              <strong>RM</strong>
+                              {coin.market_cap}
+                            </div>
                           </div>
                         </div>
-                        <div className="d-flex best-coin-mc">
-                          <div className="best-coin-mc-title">
-                            <b>Total Market Cap</b>
-                          </div>
-                          <div>
-                            <strong>RM</strong>
-                            {coin.market_cap}
-                          </div>
-                        </div>
-                      </div>
+                      </Paper>
                     );
                   })
               ) : (
@@ -77,6 +92,7 @@ const Home = () => {
           </div>
         </Wrapper>
       </div>
+      <Modal popup_index={coinId} open={open} setOpen={setOpen} />
     </>
   );
 };

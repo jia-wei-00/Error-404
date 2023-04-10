@@ -6,24 +6,24 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Paper from "@mui/material/Paper";
-import { AxisOptions, Chart } from "react-charts";
+import { AxisOptions, Chart, ChartOptions } from "react-charts";
+import { Backdrop } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 
 interface CoinDetails {
   name?: string;
-
-  description?: {
-    en?: string;
-  };
+  description?: { en?: string };
+  image?: { large?: string };
   market_data?: {
-    current_price?: {
-      myr?: number;
-    };
-    // market_cap?: {
-    //   myr?: number;
-    // }
-  };
-  image?: {
-    large?: string;
+    circulating_supply?: number;
+    total_supply?: number;
+    max_supply?: number;
+    fully_diluted_valuation?: { myr?: number };
+    ath?: { myr?: number };
+    atl?: { myr?: number };
+    current_price?: { myr?: number };
+    market_cap?: { myr?: number };
+    total_volume?: { myr?: number };
   };
 }
 
@@ -33,6 +33,8 @@ interface ModalProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
+type MyDatum = { timestamp: Date; price: number };
+
 const Modal: React.FC<ModalProps> = ({ popup_index, open, setOpen }) => {
   useEffect(() => {
     apiStore.fetchDetails(popup_index);
@@ -40,94 +42,135 @@ const Modal: React.FC<ModalProps> = ({ popup_index, open, setOpen }) => {
   }, [popup_index]);
 
   const coin_details: CoinDetails = apiStore.coin_details || {};
-  let coin_chart = apiStore.chart_data;
-  console.log(coin_details);
-  // console.log(coin_chart);
-
+  const coin_chart = apiStore.chart_data;
   // ---------------------------------------------Chart---------------------------------------------
-  // const time_stamp: number[] = [];
-  // const price_data: number[] = [];
-  // coin_chart = coin_chart.map((coin_chart_data: number[]) => {
-  //   return {
-  //     timestamp: coin_chart_data[0],
-  //     price: coin_chart_data[1],
-  //   };
-  // });
-  // coin_chart.forEach((coin_chart: { timestamp: number; price: number }) => {
-  //   time_stamp.push(coin_chart.timestamp);
-  //   price_data.push(coin_chart.price);
-  // });
 
-  // const data = {
-  //   date: time_stamp,
-  //   price: price_data
-  // }
-  // // const { data, randomizeData } = useDemoConfig({
-  // //   series: 10,
-  // //   dataType: "time",
-  // // });
+  const modified_coin_chart = coin_chart.map((coin_chart_data: number[]) => {
+    return {
+      timestamp: new Date(coin_chart_data[0]),
+      price: coin_chart_data[1],
+    };
+  });
 
-  // const primaryAxis = React.useMemo<
-  //   AxisOptions<typeof data[number]["data"][number]>
-  // >(
-  //   () => ({
-  //     getValue: (datum) => datum.primary as unknown as Date,
-  //   }),
-  //   []
-  // );
+  const coin_chart_data = [
+    {
+      label: "Crypto",
+      data: modified_coin_chart,
+    },
+  ];
 
-  // const secondaryAxes = React.useMemo<
-  //   AxisOptions<typeof data[number]["data"][number]>[]
-  // >(
-  //   () => [
-  //     {
-  //       getValue: (datum) => datum.secondary,
-  //     },
-  //   ],
-  //   []
-  // );
-  // ---------------------------------------------Chart---------------------------------------------
+  const primaryAxis = React.useMemo(
+    (): AxisOptions<MyDatum> => ({
+      getValue: (datum) => datum.timestamp,
+    }),
+    []
+  );
+
+  const secondaryAxes = React.useMemo(
+    (): AxisOptions<MyDatum>[] => [
+      {
+        getValue: (datum) => datum.price,
+      },
+    ],
+    []
+  );
+
+  const chart_options = {
+    data: coin_chart_data,
+    primaryAxis,
+    secondaryAxes,
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const dangerous_html = coin_details.description
+    ? (coin_details.description.en as string)
+    : "";
+
   return (
     <Dialog
       onClose={() => setOpen(false)}
       open={open}
-      //   fullScreen={fullScreen}
       aria-labelledby="responsive-dialog-title"
+      maxWidth="xl"
     >
-      <Paper sx={{ padding: "30px", textAlign: "center" }}>
-        <div className="content">
-          <div className="box-main">
-            <div className="box-main-1">
-              <img
-                src={coin_details.image && coin_details.image.large}
-                alt=""
-                height={100}
-              />
-              <h1>{coin_details.name}</h1>
-              <h2>
-                Price: RM
-                {coin_details.market_data &&
-                  coin_details.market_data.current_price?.myr}
-              </h2>
+      <Paper className="modal" sx={{ padding: "1rem", position: "relative" }}>
+        {coin_details && coin_chart.length === 0 ? (
+          <div className="loading">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"
+              alt="Loading..."
+            ></img>
+          </div>
+        ) : (
+          <>
+            <div className="modal-close">
+              <button onClick={handleClose}>✕</button>
             </div>
-            <div className="box-main-2">
-              <p>{coin_details.description && coin_details.description.en}</p>
+            <div className="content">
+              <div className="box-main">
+                <div className="box-main-1">
+                  <img
+                    src={coin_details.image && coin_details.image.large}
+                    alt=""
+                    height={200}
+                  />
+                  <h1>{coin_details.name}</h1>
+                  <h2>
+                    Price: RM
+                    {coin_details.market_data &&
+                      coin_details.market_data.current_price?.myr}
+                  </h2>
+                </div>
+                <div className="box-main-2">
+                  <div
+                    dangerouslySetInnerHTML={{ __html: dangerous_html }}
+                  ></div>
+                </div>
+                <div className="box-main-3">
+                  <div>
+                    <p>All-Time High: {coin_details.market_data?.ath?.myr}</p>
+                  </div>
+                  <div>
+                    <p>All-Time Low: {coin_details.market_data?.atl?.myr}</p>
+                  </div>
+                </div>
+              </div>
+              <div className="box-1">
+                <div className="box-flex-1">
+                  <h3>Market Cap:</h3>
+                  <h3>Circulating Supply:</h3>
+                  <h3>Total Supply:</h3>
+                  <h3>Fully Diluted Valuation:</h3>
+                  <h3>Total Volume:</h3>
+                </div>
+                <div className="box-flex-2">
+                  <div>
+                    <h3>RM{coin_details.market_data?.market_cap?.myr}</h3>
+                    <h3>{coin_details.market_data?.circulating_supply}</h3>
+                    <h3>{coin_details.market_data?.total_supply}</h3>
+                    <h3>
+                      RM{coin_details.market_data?.fully_diluted_valuation?.myr}
+                    </h3>
+                    <h3>RM{coin_details.market_data?.total_volume?.myr}</h3>
+                  </div>
+                </div>
+              </div>
+              <div className="box-2">
+                {coin_chart.length > 0 ? (
+                  <div>
+                    MYR
+                    <Chart options={chart_options} />
+                  </div>
+                ) : (
+                  <p>NO DATA</p>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="box-1">
-            <h2></h2>
-          </div>
-          <div className="box-2">
-            CHART HERE
-            {/* <Chart
-          options={{
-            data,
-            primaryAxis,
-            secondaryAxes,
-          }}
-        /> */}
-          </div>
-        </div>
+          </>
+        )}
       </Paper>
     </Dialog>
   );
