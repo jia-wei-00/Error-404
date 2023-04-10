@@ -35,6 +35,7 @@
     "tsparticles": "^2.9.3",
     "tsparticles-engine": "^2.9.3",
     "tsparticles-preset-big-circles": "^2.9.3",
+    "tsparticles-preset-links": "^2.9.3",
     "tsparticles-preset-triangles": "^2.9.3",
     "typescript": "^4.9.5",
     "use-breakpoint": "^3.0.7",

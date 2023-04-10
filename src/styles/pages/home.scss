@@ -24,13 +24,17 @@ $negaitve-color: red;
 
 .table{
   @include box-shadow;
+  
+  &body{
+    background-color:rgba(255, 255, 255, 0.371);
+  }
 }
 
 .top-crypto {
   display: flex;
   height: 550px;
   width: 100%;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.542);
   margin: 20px 0 0 0;
   justify-content: space-around;
   align-items: center;
@@ -127,6 +131,7 @@ $negaitve-color: red;
 
 .cell {
   display: flex;
+  background-color: rgba(255, 255, 255, 0.399);
 
   &-images {
     height: 50px;

@@ -27,7 +27,7 @@ const Home = () => {
               <div
                 className="top-crypto"
                 style={{
-                  overflowX: "scroll",
+                  // overflowX: "scroll",
                   display: "flex",
                   flexWrap: "nowrap",
                 }}
