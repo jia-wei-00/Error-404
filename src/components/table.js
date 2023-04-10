@@ -13,6 +13,7 @@ import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
 import StarBorderRoundedIcon from "@mui/icons-material/StarBorderRounded";
 import "../styles/pages/home.scss";
 import { observer } from "mobx-react-lite";
+import { reaction, when } from "mobx";
 import Button from "@mui/material/Button";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -63,10 +64,25 @@ const StickyHeadTable = ({ search }) => {
   const [coinId, setCoinId] = useState("");
 
   useEffect(() => {
-    if (apiStore.coin_list.length > 0 && authStore.user) {
+    if (authStore.user) {
       fireStore.fetchFavouriteList();
+      console.log(fireStore.favourite_list);
     }
-  }, [fireStore.favourite_list]);
+
+    // if (apiStore.coin_list.length > 0 && authStore.user) {
+    //   const disposeReaction = reaction(
+    //     () => !fireStore.favourite_list,
+    //     () => fireStore.fetchFavouriteList(),
+
+    //   );
+
+    //   return () => {
+    //     disposeReaction();
+    //   }
+    // }
+
+
+  }, [authStore.user]);
 
   const loading = () => {
     if (load < 100) {
@@ -93,7 +109,7 @@ const StickyHeadTable = ({ search }) => {
   return (
     <>
       <Paper sx={{ width: "100%" }}>
-        <TableContainer sx={{ overflow: "auto" }}>
+        <TableContainer className="table" sx={{ overflow: "auto" }}>
           <Table
             stickyHeader
             aria-label="sticky table"
@@ -132,8 +148,8 @@ const StickyHeadTable = ({ search }) => {
                         onClick={() => openModal(coin.id)}
                       >
                         <TableCell>
-                          {fireStore.favourite_list &&
-                          fireStore.favourite_list.includes(coin.id) ? (
+                          {fireStore.favourite_list && 
+                            fireStore.favourite_list.includes(coin.id) ? (
                             <StarRateRoundedIcon
                               className="star"
                               onClick={(event) => favorite(event, coin.id)}
@@ -152,29 +168,27 @@ const StickyHeadTable = ({ search }) => {
                               <img className="cell-images" src={coin.image} />
                             </div>
                             <div className="d-flex cell-text">
-                              {coin.name} + {coin.symbol}
+                              {coin.name}  <p>{coin.symbol}</p>
                             </div>
                           </div>
                         </TableCell>
                         <TableCell>{coin.current_price}</TableCell>
                         <TableCell>
                           <div
-                            className={`my-number ${
-                              coin.price_change_percentage_24h < 0
-                                ? "negative"
-                                : ""
-                            }`}
+                            className={`my-number ${coin.price_change_percentage_24h < 0
+                              ? "negative"
+                              : ""
+                              }`}
                           >
                             {coin.price_change_percentage_24h.toFixed(2) + "%"}
                           </div>
                         </TableCell>
                         <TableCell>
                           <div
-                            className={`my-number ${
-                              coin.market_cap_change_percentage_24h < 0
-                                ? "negative"
-                                : ""
-                            }`}
+                            className={`my-number ${coin.market_cap_change_percentage_24h < 0
+                              ? "negative"
+                              : ""
+                              }`}
                           >
                             {coin.market_cap_change_percentage_24h.toFixed(2) +
                               "%"}
@@ -182,18 +196,16 @@ const StickyHeadTable = ({ search }) => {
                         </TableCell>
                         <TableCell>
                           <div
-                            className={`my-number ${
-                              coin.ath_change_percentage < 0 ? "negative" : ""
-                            }`}
+                            className={`my-number ${coin.ath_change_percentage < 0 ? "negative" : ""
+                              }`}
                           >
                             {coin.ath_change_percentage.toFixed(2) + "%"}
                           </div>
                         </TableCell>
                         <TableCell>
                           <div
-                            className={`my-number ${
-                              coin.atl_change_percentage < 0 ? "negative" : ""
-                            }`}
+                            className={`my-number ${coin.atl_change_percentage < 0 ? "negative" : ""
+                              }`}
                           >
                             {coin.atl_change_percentage.toFixed(2) + "%"}
                           </div>
@@ -209,22 +221,22 @@ const StickyHeadTable = ({ search }) => {
         apiStore.coin_list.filter((coin) =>
           coin.name.toLowerCase().includes(search)
         ).length && (
-        <Button
-          variant="contained"
-          sx={{
-            fontFamily: "Poppins, sans-serif",
-            backgroundColor: "black",
-            marginTop: 3,
-            ":hover": {
-              backgroundColor: "#fc6",
-              color: "black",
-            },
-          }}
-          onClick={() => loading()}
-        >
-          Load More
-        </Button>
-      )}
+          <Button
+            variant="contained"
+            sx={{
+              fontFamily: "Poppins, sans-serif",
+              backgroundColor: "black",
+              marginTop: 3,
+              ":hover": {
+                backgroundColor: "#fc6",
+                color: "black",
+              },
+            }}
+            onClick={() => loading()}
+          >
+            Load More
+          </Button>
+        )}
 
       <Modal popup_index={coinId} open={open} setOpen={setOpen} />
 

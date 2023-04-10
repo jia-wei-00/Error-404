@@ -26,6 +26,7 @@ export class firestoreStoreImplementation {
 
   postFavouriteAPI(props) {
     let tmp_favorite_list = [...this.favourite_list];
+    const id = toast.loading("Please wait...");
 
     if (props) {
       if (tmp_favorite_list.includes(props)) {
@@ -48,11 +49,22 @@ export class firestoreStoreImplementation {
                 favourite_list: tmp_favorite_list,
               })
               .then(() => {
-                console.log("Document updated successfully!");
+                this.setFavouriteList(tmp_favorite_list);
+                toast.update(id, {
+                  render: "Favorite Updated",
+                  type: "success",
+                  isLoading: false,
+                  autoClose: 5000,
+                });
               })
               .catch((error) => {
                 console.log("Error updating document:", error);
-                toast.error(error);
+                toast.update(id, {
+                  render: error.message,
+                  type: "error",
+                  isLoading: false,
+                  autoClose: 5000,
+                });
               });
           } else {
             console.log("Document does not exist!");
@@ -61,6 +73,7 @@ export class firestoreStoreImplementation {
                 favourite_list: tmp_favorite_list,
               })
               .then(() => {
+                this.setFavouriteList(tmp_favorite_list);
                 console.log("Document created successfully!");
               })
               .catch((error) => {
