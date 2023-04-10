@@ -90,7 +90,7 @@ const Home = () => {
             </div>
           </Wrapper>
       </div>
-      
+
       {/* <div>
         {apiStore.coin_list.length > 0 ? (
           apiStore.coin_list.slice(0, 4).map((coin, key) => {
