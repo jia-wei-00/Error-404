@@ -17,7 +17,8 @@ const Favourite = (data) => {
       Favourite
       <button
         onClick={() => {
-          authStore.user && fireStore.getFavouriteList();
+          fireStore.getFavouriteList();
+          console.log(fireStore.favourite_data)
         }}
       >
         Post
