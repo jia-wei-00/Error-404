@@ -14,7 +14,7 @@ $negaitve-color: red;
 }
 
 .homepage {
-  background-color: rgb(249, 245, 220);
+  // background-color: rgb(249, 245, 220);
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -96,6 +96,11 @@ $negaitve-color: red;
   align-items: flex-end;
   width: 100%;
   margin: 10px 0;
+
+  // // &-field{
+  // //   background-color: aliceblue;
+  // //   border-radius: 5px;
+  // }
 }
 
 .crypto-list {
