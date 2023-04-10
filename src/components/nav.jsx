@@ -1,73 +1,209 @@
-import React from "react";
-import "../styles/components/nav.scss";
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import AdbIcon from "@mui/icons-material/Adb";
 import { Link } from "react-router-dom";
-import Wrapper from "./wrapper";
+import { authStore } from "../store";
 import { observer } from "mobx-react-lite";
-import { authStore, fireStore } from "../store";
+import "../styles/components/nav.scss";
 
-import LoginModal from "./login-modal";
+const pages = [
+  { name: "Home", path: "/" },
+  { name: "Favorite", path: "/favorite" },
+];
+const settings = ["Logout"];
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+function ResponsiveAppBar() {
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-const Nav = () => {
-  const logout = () => {
-    authStore.signOut().then((res) => {
-      fireStore.setFavouriteList(null);
-    });
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
   };
 
   return (
-    <header>
-      <Wrapper>
-        <div>
-          <Link to="/">Logo</Link>
-        </div>
-        <div className="menu">
-          <ul className="menu-navbar">
-            <li>
-              <Link to="/" className="link">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link to="/favourite" className="link">
-                Favourite
-              </Link>
-            </li>
-            {/* <li>
-              <Link to="/modal" className="link">
-                Modal
-              </Link>
-            </li> */}
-            <li>
-              <Link to="/testing" className="link">
-                Testing
-              </Link>
-            </li>
-          </ul>
-          {authStore.user ? (
-            <button onClick={logout}>Logout</button>
-          ) : (
-            <button onClick={() => authStore.setLoginModal(true)}>
-              Sign In/ Sign Up
-            </button>
-          )}
-        </div>
-      </Wrapper>
+    <AppBar
+      className="header"
+      position="static"
+      sx={{
+        position: "sticky",
+        top: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.7)",
+        backdropFilter: "blur(15px)",
+      }}
+    >
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            LOGO
+          </Typography>
 
-      <LoginModal />
-    </header>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: "block", md: "none" },
+              }}
+            >
+              {pages.map(({ name, path }, key) => {
+                return (
+                  <MenuItem key={key} onClick={handleCloseNavMenu}>
+                    <Link to={path} className="link">
+                      <Typography textAlign="center">{name}</Typography>
+                    </Link>
+                  </MenuItem>
+                );
+              })}
+            </Menu>
+          </Box>
+          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href=""
+            sx={{
+              mr: 2,
+              display: { xs: "flex", md: "none" },
+              flexGrow: 1,
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            LOGO
+          </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {pages.map((page, key) => (
+              <Button
+                key={key}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                <Link
+                  to={page.path}
+                  className="link"
+                  style={{ color: "white" }}
+                >
+                  {page.name}
+                </Link>
+              </Button>
+            ))}
+          </Box>
+
+          <Box sx={{ flexGrow: 0 }}>
+            {authStore.user ? (
+              <>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar
+                      alt={authStore.user}
+                      src="/static/images/avatar/2.jpg"
+                    />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting, key) => (
+                    <MenuItem
+                      key={key}
+                      onClick={() => {
+                        {
+                          authStore.signOut();
+                          handleCloseUserMenu();
+                        }
+                      }}
+                    >
+                      <Typography textAlign="center">{setting}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </>
+            ) : (
+              <Button
+                sx={{ my: 2, color: "white", display: "block" }}
+                onClick={() => authStore.setLoginModal(true)}
+              >
+                Login
+              </Button>
+            )}
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
-};
-
-export default observer(Nav);
+}
+export default observer(ResponsiveAppBar);

@@ -24,6 +24,10 @@ export class firestoreStoreImplementation {
     this.favourite_list = props;
   }
 
+  setFavouriteData(props) {
+    this.favourite_data = props;
+  }
+
   postFavouriteAPI(props) {
     let tmp_favorite_list = [...this.favourite_list];
     const id = toast.loading("Please wait...");
@@ -88,7 +92,7 @@ export class firestoreStoreImplementation {
     }
   }
 
-  fetchFavouriteList() {
+  async fetchFavouriteList() {
     const email = authStore.user;
     const docRef = db.collection("user_data").doc(email);
     docRef
@@ -96,6 +100,7 @@ export class firestoreStoreImplementation {
       .then((doc) => {
         if (doc.exists) {
           this.setFavouriteList(doc.data().favourite_list);
+          this.getFavouriteList();
         } else {
           console.log("No such document!");
         }
@@ -111,8 +116,7 @@ export class firestoreStoreImplementation {
       .map((item) => ({
         ...item,
       }));
-    console.log(newArray);
-    this.favourite_data = newArray;
+    this.setFavouriteData(newArray);
   }
 }
 
