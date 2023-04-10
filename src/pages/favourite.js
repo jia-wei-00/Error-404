@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import "../styles/pages/favourite.scss";
-import { authStore, fireStore } from "../store";
+import { authStore, fireStore, apiStore } from "../store";
 import { observer } from "mobx-react-lite";
 import { Wrapper } from "../components";
 import Box from "@mui/material/Box";
@@ -18,6 +18,7 @@ import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import TextField from "@mui/material/TextField";
 import { Stack } from "@mui/material";
 import Grow from "@mui/material/Grow";
+import { Modal } from "../components";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -32,12 +33,20 @@ const ExpandMore = styled((props) => {
 
 const Favourite = () => {
   const [search, setSearch] = React.useState("");
+  const [coinId, setCoinId] = React.useState("");
+  const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (authStore.user) {
       fireStore.fetchFavouriteList();
     }
   }, [fireStore.favourite_list.length]);
+
+  const openModal = (id) => {
+    setOpen(true);
+    setCoinId(id);
+    apiStore.clearDetails();
+  };
 
   return (
     <Wrapper>
@@ -64,7 +73,7 @@ const Favourite = () => {
                     {...(favorite ? { timeout: key * 1000 } : {})}
                   >
                     <Grid xs={12} sm={6} md={3} key={key}>
-                      <Card>
+                      <Card onClick={() => openModal(favorite.id)}>
                         <CardHeader
                           avatar={
                             <Avatar
@@ -82,7 +91,8 @@ const Favourite = () => {
                                 selected={fireStore.favourite_list.includes(
                                   favorite.id
                                 )}
-                                onChange={() => {
+                                onChange={(event) => {
+                                  event.stopPropagation();
                                   fireStore.postFavouriteAPI(favorite.id);
                                 }}
                                 color="warning"
@@ -123,6 +133,7 @@ const Favourite = () => {
               })}
         </Grid>
       </Box>
+      <Modal popup_index={coinId} open={open} setOpen={setOpen} />
     </Wrapper>
   );
 };
