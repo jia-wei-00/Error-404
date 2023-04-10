@@ -17,6 +17,7 @@ import { authStore } from "../store";
 import { observer } from "mobx-react-lite";
 import "../styles/components/nav.scss";
 import LoginModal from "./login-modal";
+import logo from "../Assets/image/logo.png";
 
 const pages = [
   { name: "Home", path: "/" },
@@ -67,7 +68,19 @@ function ResponsiveAppBar() {
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <Box
+            component="img"
+            sx={{
+              display: { xs: "none", md: "flex" },
+              mr: 1,
+              height: 45,
+              width: 45,
+              marginRight: "10px",
+            }}
+            alt="logo"
+            src={logo}
+          />
+          <image sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -83,7 +96,7 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            CoinWatch
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -126,7 +139,18 @@ function ResponsiveAppBar() {
               })}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <Box
+            component="img"
+            sx={{
+              display: { xs: "flex", md: "none" },
+              mr: 1,
+              height: 40,
+              width: 40,
+              marginRight: "10px",
+            }}
+            alt="logo"
+            src={logo}
+          />
           <Typography
             variant="h5"
             noWrap
@@ -143,7 +167,7 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            CoinWatch
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {filteredPages.map((page, key) => (

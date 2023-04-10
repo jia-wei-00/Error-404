@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Home, Favourite, Login } from "./pages";
+import { Home, Favourite, Login, NotFound } from "./pages";
 import { Nav, Modal } from "./components";
 import { ToastContainer } from "react-toastify";
 import "./styles/main.scss";
@@ -33,6 +33,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/favorite" element={<Favourite />} />
           <Route path="/testing" element={<Testing />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         {/* </Auth> */}
         <ToastContainer theme="dark" />
