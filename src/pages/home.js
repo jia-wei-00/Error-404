@@ -72,11 +72,11 @@ const Home = () => {
                         in={coin}
                         style={{ transformOrigin: "0 0 0" }}
                         {...(coin ? { timeout: key * 1000 } : {})}
+                        key={coin.id}
                       >
                         <Paper sx={{ width: "100%" }}>
                           <div
                             className="d-flex best-coin"
-                            key={key}
                             onClick={() => {
                               setOpen(true);
                               setCoinId(coin.id);

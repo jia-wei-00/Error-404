@@ -30,7 +30,14 @@ const ParticleComponent = () => {
         style={{ position: "absolute", top: 0 }}
         // params={particlesConfig}
         options={{
-            preset: 'bigCircles'
+            preset: 'bigCircles',
+            particles: {
+              color: ["#325358","#C0FFEE","#31CCEC","#6A1A78"],
+            },
+            resize: {
+              "delay": 0.5,
+              "enable": true
+            }
         }}
         init={loadBigCirclesPreset}
       />

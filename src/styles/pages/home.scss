@@ -42,6 +42,7 @@ $negaitve-color: red;
   border-radius: 10px;
   // box-shadow: 1px 1px 17px -3px rgb(181, 180, 180);
   @include box-shadow;
+  transition: $transition;
 
   & > div {
     background-color: aliceblue;
