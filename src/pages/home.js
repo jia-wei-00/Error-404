@@ -21,6 +21,7 @@ const Home = () => {
     apiStore.fetchList();
   }, []);
 
+  // Screen size refer
   // sx: 0px
   // sm: 600px
   // md: 960px
@@ -46,8 +47,6 @@ const Home = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // log(apiStore.coin_list);
-
   return (
     <>
       <div>
@@ -57,7 +56,6 @@ const Home = () => {
             <div
               className="top-crypto"
               style={{
-                // overflowX: "scroll",
                 display: "flex",
                 flexWrap: "nowrap",
               }}

@@ -4,8 +4,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { auth, provider } from "../firebase";
 import fireStore from "./firestore-store";
 
-// import { sendPasswordResetEmail } from "firebase/auth";
-
 export class authStoreImplementation {
   user = null;
   username = null;

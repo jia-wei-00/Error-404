@@ -17,17 +17,6 @@ const firebaseConfig = {
   measurementId: "G-NR2D55NP60",
 };
 
-//personal email
-// const firebaseConfig = {
-//   apiKey: "AIzaSyBT-FZ6C2YwifGTmUvL1gySdf0yfGNIwl8",
-//   authDomain: "coinwatch-e02d0.firebaseapp.com",
-//   projectId: "coinwatch-e02d0",
-//   storageBucket: "coinwatch-e02d0.appspot.com",
-//   messagingSenderId: "1044711695206",
-//   appId: "1:1044711695206:web:c844ce85ac97c8dbb65ea7",
-//   measurementId: "G-9HY7BGBS7J",
-// };
-
 // Initialize Firebase
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();

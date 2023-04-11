@@ -44,11 +44,9 @@ export class apiStoreImplementation {
         "https://api.coingecko.com/api/v3/coins/markets?vs_currency=myr&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en"
       )
       .then((res) => {
-        // console.log(res.data, "store")
         this.setCoinLists(res.data);
       })
       .catch((err) => {
-        // console.log(err);
         toast.error(err.message);
       });
   }
@@ -62,7 +60,6 @@ export class apiStoreImplementation {
     axios
       .get(`https://api.coingecko.com/api/v3/coins/${coin_id}`)
       .then((res) => {
-        // console.log(res.data, "store")
         this.setDetails(res.data);
       })
       .catch((err) => {
