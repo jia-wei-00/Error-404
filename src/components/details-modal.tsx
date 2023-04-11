@@ -1,12 +1,12 @@
 import React, { useEffect, Dispatch, SetStateAction } from "react";
 import "../styles/components/details-modal.scss";
 import { observer } from "mobx-react-lite";
-import { apiStore } from "../store";
 import Dialog from "@mui/material/Dialog";
 import Paper from "@mui/material/Paper";
 import { AxisOptions, Chart } from "react-charts";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { createTheme } from "@mui/material/styles";
+import { apiStore, authStore, fireStore } from "../store";
 import ToggleButton from "@mui/material/ToggleButton";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
 
@@ -28,6 +28,8 @@ type CoinDetails = {
   name?: string;
   description?: { en?: string };
   image?: { large?: string };
+  market_cap_rank?: string;
+  coingecko_rank?: string;
   market_data?: {
     circulating_supply?: number;
     total_supply?: number;
@@ -70,7 +72,7 @@ const Modal: React.FC<ModalProps> = ({ popup_index, open, setOpen }) => {
 
   const coin_chart_data = [
     {
-      label: "Crypto",
+      label: "Crypto_Value (MYR)",
       data: modified_coin_chart,
     },
   ];
@@ -118,6 +120,15 @@ const Modal: React.FC<ModalProps> = ({ popup_index, open, setOpen }) => {
 
   const fullScreen = useMediaQuery(theme.breakpoints.down("mobile"));
 
+  const favorite = (event: React.MouseEvent, id: number): void => {
+    event.stopPropagation();
+    if (!authStore.user) {
+      authStore.setLoginModal(true);
+    } else {
+      fireStore.postFavouriteAPI(id);
+    }
+  };
+
   return (
     <Dialog
       fullScreen={fullScreen}
@@ -126,7 +137,7 @@ const Modal: React.FC<ModalProps> = ({ popup_index, open, setOpen }) => {
       aria-labelledby="responsive-dialog-title"
       maxWidth="desktop"
     >
-      <Paper className="modal" sx={{ padding: "1rem", position: "relative" }}>
+      <Paper className="modal" sx={{ padding: "1rem" }}>
         {coin_details && coin_chart.length === 0 ? (
           <div className="loading">
             <img
@@ -148,11 +159,24 @@ const Modal: React.FC<ModalProps> = ({ popup_index, open, setOpen }) => {
                     height={200}
                   />
                   <h1>{coin_details.name}</h1>
-                  <h2>
-                    Price: RM
-                    {coin_details.market_data &&
-                      coin_details.market_data.current_price?.myr}
-                  </h2>
+                  <div>
+                    {/* Favorite:{""} */}
+                    <ToggleButton
+                      value="check"
+                      selected={
+                        fireStore.favourite_list &&
+                        fireStore.favourite_list.includes(popup_index)
+                      }
+                      onChange={(event) => {
+                        favorite(event, popup_index);
+                      }}
+                      color="warning"
+                      sx={{ borderRadius: "50%" }}
+                      size="small"
+                    >
+                      <StarRoundedIcon />
+                    </ToggleButton>
+                  </div>
                 </div>
                 <div className="box-main-2">
                   {dangerous_html === "" ? (
@@ -165,30 +189,63 @@ const Modal: React.FC<ModalProps> = ({ popup_index, open, setOpen }) => {
                 </div>
                 <div className="box-main-3">
                   <div>
-                    <p>All-Time High: {coin_details.market_data?.ath?.myr}</p>
+                    <p>Market-Cap Rank: {coin_details.market_cap_rank}</p>
                   </div>
                   <div>
-                    <p>All-Time Low: {coin_details.market_data?.atl?.myr}</p>
+                    <p>Community Rank: {coin_details.coingecko_rank}</p>
                   </div>
                 </div>
               </div>
               <div className="box-1">
                 <div className="box-flex-1">
-                  <h3>Market Cap:</h3>
-                  <h3>Circulating Supply:</h3>
-                  <h3>Total Supply:</h3>
-                  <h3>Fully Diluted Valuation:</h3>
-                  <h3>Total Volume:</h3>
+                  <p>Price:</p>
+                  <p>All-Time High:</p>
+                  <p>All-Time Low:</p>
+                  <p>Market Cap:</p>
+                  <p>Fully Diluted Valuation:</p>
+                  <p>Total Volume:</p>
+                  <p>Circulating Supply:</p>
+                  <p>Total Supply:</p>
                 </div>
                 <div className="box-flex-2">
                   <div>
-                    <h3>RM{coin_details.market_data?.market_cap?.myr}</h3>
-                    <h3>{coin_details.market_data?.circulating_supply}</h3>
-                    <h3>{coin_details.market_data?.total_supply}</h3>
-                    <h3>
-                      RM{coin_details.market_data?.fully_diluted_valuation?.myr}
-                    </h3>
-                    <h3>RM{coin_details.market_data?.total_volume?.myr}</h3>
+                    <p>
+                      RM
+                      {coin_details.market_data &&
+                        coin_details.market_data.current_price?.myr}
+                    </p>
+                    <p>
+                      RM
+                      {coin_details.market_data &&
+                        coin_details.market_data.ath?.myr}
+                    </p>
+                    <p>
+                      RM
+                      {coin_details.market_data &&
+                        coin_details.market_data.atl?.myr}
+                    </p>
+                    <p>RM{coin_details.market_data?.market_cap?.myr}</p>
+                    <p>
+                      {coin_details.market_data?.fully_diluted_valuation?.myr
+                        ? "RM" +
+                          coin_details.market_data?.fully_diluted_valuation?.myr
+                        : "Not available"}
+                    </p>
+                    <p>
+                      {coin_details.market_data?.total_volume?.myr
+                        ? "RM" + coin_details.market_data?.total_volume?.myr
+                        : "Not available"}
+                    </p>
+                    <p>
+                      {coin_details.market_data?.circulating_supply
+                        ? coin_details.market_data?.circulating_supply
+                        : "Not available"}
+                    </p>
+                    <p>
+                      {coin_details.market_data?.total_supply
+                        ? coin_details.market_data?.total_supply
+                        : "Not available"}
+                    </p>
                   </div>
                 </div>
               </div>
