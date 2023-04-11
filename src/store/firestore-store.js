@@ -29,12 +29,12 @@ export class firestoreStoreImplementation {
   }
 
   postFavouriteAPI(props) {
-    let tmp_favorite_list;
-    if(this.favourite_list === 0) {
-      tmp_favorite_list = this.favourite_list;
-    }else {
+    let tmp_favorite_list = [];
+
+    if(this.favourite_list !== 0) {
       tmp_favorite_list = [...this.favourite_list];
     }
+
     const id = toast.loading("Please wait...");
 
     if (props) {
