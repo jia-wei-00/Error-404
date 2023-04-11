@@ -31,7 +31,7 @@ export class firestoreStoreImplementation {
   postFavouriteAPI(props) {
     let tmp_favorite_list = [];
 
-    if(this.favourite_list !== 0) {
+    if (this.favourite_list !== 0) {
       tmp_favorite_list = [...this.favourite_list];
     }
 
@@ -57,6 +57,7 @@ export class firestoreStoreImplementation {
               })
               .then(() => {
                 this.setFavouriteList(tmp_favorite_list);
+                this.getFavouriteList();
                 toast.update(id, {
                   render: "Favorite Updated",
                   type: "success",
@@ -79,6 +80,7 @@ export class firestoreStoreImplementation {
               })
               .then(() => {
                 this.setFavouriteList(tmp_favorite_list);
+                this.getFavouriteList();
                 toast.update(id, {
                   render: "Favorite Updated",
                   type: "success",
@@ -109,7 +111,7 @@ export class firestoreStoreImplementation {
     }
   }
 
-  async fetchFavouriteList() {
+  fetchFavouriteList() {
     const email = authStore.user;
     const docRef = db.collection("user_data").doc(email);
     docRef
@@ -118,6 +120,7 @@ export class firestoreStoreImplementation {
         if (doc.exists) {
           this.setFavouriteList(doc.data().favourite_list);
           this.getFavouriteList();
+          console.log("running");
         } else {
           console.log("No such document!");
         }

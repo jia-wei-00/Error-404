@@ -11,13 +11,13 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import { Link } from "react-router-dom";
 import { authStore } from "../store";
 import { observer } from "mobx-react-lite";
 import "../styles/components/nav.scss";
 import LoginModal from "./login-modal";
 import logo from "../Assets/image/logo.png";
+import { useNavigate } from "react-router-dom";
 
 const pages = [
   { name: "Home", path: "/" },
@@ -28,6 +28,7 @@ const settings = ["Logout"];
 
 function ResponsiveAppBar() {
   const [filteredPages, setFilteredPages] = React.useState([]);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (authStore.user) {
@@ -220,6 +221,7 @@ function ResponsiveAppBar() {
                         {
                           authStore.signOut();
                           handleCloseUserMenu();
+                          navigate("/");
                         }
                       }}
                     >

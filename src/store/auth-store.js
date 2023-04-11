@@ -111,6 +111,7 @@ export class authStoreImplementation {
           this.setUser(null);
           this.setUsername(null);
           fireStore.setFavouriteList(null);
+          fireStore.setFavouriteData(null);
           resolve(true);
         })
         .catch((error) => {

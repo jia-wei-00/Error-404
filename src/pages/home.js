@@ -18,7 +18,9 @@ const Home = () => {
   const [viewCard, setViewCard] = useState(4);
 
   useEffect(() => {
-    apiStore.fetchList();
+    if (apiStore.coin_list.length === 0) {
+      apiStore.fetchList();
+    }
   }, []);
 
   // Screen size refer

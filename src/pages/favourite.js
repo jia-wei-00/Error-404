@@ -36,10 +36,24 @@ const Favourite = () => {
   const [coinId, setCoinId] = React.useState("");
   const [open, setOpen] = React.useState(false);
 
+  // React.useEffect(() => {
+  //   if (authStore.user) {
+  //     fireStore.fetchFavouriteList();
+  //   }
+  // },[])
+
   React.useEffect(() => {
     if (authStore.user) {
+      if (fireStore.favourite_list.length === 0) {
+        apiStore.fetchList();
+      }
+
       fireStore.fetchFavouriteList();
     }
+  }, [authStore.user]);
+
+  React.useCallback(() => {
+    fireStore.fetchFavouriteList();
   }, [fireStore.favourite_list]);
 
   const openModal = (id) => {
@@ -62,7 +76,8 @@ const Favourite = () => {
           />
         </Stack>
         <Grid container spacing={{ xs: 2, md: 3 }} sx={{ padding: "15px" }}>
-          {fireStore.favourite_data &&
+          {authStore.user &&
+            fireStore.favourite_data &&
             fireStore.favourite_data
               .filter((coin) => coin.name.toLowerCase().includes(search))
               .map((favorite, key) => {
