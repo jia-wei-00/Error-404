@@ -29,7 +29,12 @@ export class firestoreStoreImplementation {
   }
 
   postFavouriteAPI(props) {
-    let tmp_favorite_list = [...this.favourite_list];
+    let tmp_favorite_list;
+    if(this.favourite_list === 0) {
+      tmp_favorite_list = this.favourite_list;
+    }else {
+      tmp_favorite_list = [...this.favourite_list];
+    }
     const id = toast.loading("Please wait...");
 
     if (props) {
@@ -74,6 +79,12 @@ export class firestoreStoreImplementation {
               })
               .then(() => {
                 this.setFavouriteList(tmp_favorite_list);
+                toast.update(id, {
+                  render: "Favorite Updated",
+                  type: "success",
+                  isLoading: false,
+                  autoClose: 5000,
+                });
               })
               .catch((error) => {
                 toast.error(error.message);
