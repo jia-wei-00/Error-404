@@ -40,7 +40,7 @@ const Favourite = () => {
     if (authStore.user) {
       fireStore.fetchFavouriteList();
     }
-  }, [fireStore.favourite_list.length]);
+  }, [fireStore.favourite_list]);
 
   const openModal = (id) => {
     setOpen(true);
