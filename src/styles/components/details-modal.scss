@@ -2,6 +2,12 @@
 @import "../_functions.scss";
 @import "../_mixins.scss";
 
+$box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
+
+::-webkit-scrollbar {
+  width: 0;
+}
+
 .modal {
   overflow-y: hidden;
   width: 80rem;
@@ -22,9 +28,9 @@
     right: 0;
 
     & > button {
-      font-size: 1rem;
+      font-size: 1.5rem;
       background-color: #ffffff;
-      padding: 0.3rem;
+      padding: 0;
       border-radius: 100%;
       border: 0;
     }
@@ -63,18 +69,19 @@
         "box-main-1 box-main-2 "
         "box-main-1 box-main-3 ";
       & > .box-main-1 {
-        box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
-        -webkit-box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
-        -moz-box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
+        box-shadow: $box-shadow;
+        -webkit-box-shadow: $box-shadow;
+        -moz-box-shadow: $box-shadow;
         border-radius: 1rem;
         padding: 1rem;
         text-align: center;
         grid-area: box-main-1;
       }
       & > .box-main-2 {
-        box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
-        -webkit-box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
-        -moz-box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
+        box-shadow: $box-shadow;
+        -webkit-box-shadow: $box-shadow;
+        -moz-box-shadow: $box-shadow;
+        text-align: justify;
         border-radius: 1rem;
         padding: 1rem;
         overflow-y: auto;
@@ -82,9 +89,9 @@
         grid-area: box-main-2;
       }
       & > .box-main-3 {
-        box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
-        -webkit-box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
-        -moz-box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
+        box-shadow: $box-shadow;
+        -webkit-box-shadow: $box-shadow;
+        -moz-box-shadow: $box-shadow;
         border-radius: 1rem;
         text-align: center;
         display: flex;
@@ -94,9 +101,9 @@
       }
     }
     & > .box-1 {
-      box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
-      -webkit-box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
-      -moz-box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
+      box-shadow: $box-shadow;
+      -webkit-box-shadow: $box-shadow;
+      -moz-box-shadow: $box-shadow;
       border-radius: 1rem;
       padding: 1rem;
       display: flex;
@@ -104,9 +111,9 @@
       grid-area: box-1;
     }
     & > .box-2 {
-      box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
-      -webkit-box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
-      -moz-box-shadow: 1px 3px 12px -5px rgba(0, 0, 0, 0.24);
+      box-shadow: $box-shadow;
+      -webkit-box-shadow: $box-shadow;
+      -moz-box-shadow: $box-shadow;
       border-radius: 1rem;
       padding: 1rem;
       overflow-y: auto;
@@ -117,20 +124,6 @@
         width: 100%;
       }
     }
-  }
-
-  & > .close {
-    cursor: pointer;
-    position: absolute;
-    display: block;
-    padding: 2px 5px;
-    line-height: 20px;
-    right: -10px;
-    top: -10px;
-    font-size: 24px;
-    background: #ffffff;
-    border-radius: 18px;
-    border: 1px solid #cfcece;
   }
 }
 
@@ -159,7 +152,7 @@
         justify-content: space-between;
       }
       & > .box-2 {
-        height: 10rem;
+        height: 25rem;
       }
     }
   }
@@ -167,14 +160,31 @@
 
 @media screen and (max-width: 600px) {
   .modal {
-    width: 320px;
+    width: 420px;
 
     & > .content {
       & > .box-main {
         overflow: hidden;
         display: flex;
         flex-direction: column;
-        min-height: 100vh;
+        min-height: 80vh;
+      }
+    }
+  }
+}
+@media screen and (max-width: 520px) {
+  .modal {
+    width: 100%;
+
+    & > .content {
+      & > .box-main {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        min-height: 70vh;
+      }
+      & > .box-main-1 {
+        position: relative;
       }
     }
   }
